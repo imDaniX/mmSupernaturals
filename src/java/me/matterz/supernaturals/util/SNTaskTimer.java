@@ -24,7 +24,7 @@ import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.manager.SuperNManager;
 
 public class SNTaskTimer implements Runnable {
-	private SupernaturalsPlugin plugin;
+	private final SupernaturalsPlugin plugin;
 
 	public SNTaskTimer(SupernaturalsPlugin plugin) {
 		this.plugin = plugin;
@@ -34,12 +34,7 @@ public class SNTaskTimer implements Runnable {
 	public void run() {
 		// Tick each online player
 		for (final SuperNPlayer snplayer : SuperNManager.findAllOnline()) {
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				@Override
-				public void run() {
-					plugin.getSuperManager().advanceTime(snplayer);
-				}
-			});
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getSuperManager().advanceTime(snplayer));
 		}
 	}
 }

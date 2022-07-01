@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SNCommandHelp extends SNCommand {
-	private static List<String> helpMessages = new ArrayList<String>();
-	private static List<String> helpMessagesSpanish = new ArrayList<String>();
+	private static final List<String> helpMessages = new ArrayList<>();
+	private static final List<String> helpMessagesSpanish = new ArrayList<>();
 
 	public SNCommandHelp() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		senderMustBeSupernatural = false;
 		permissions = "supernatural.command.help";
@@ -65,7 +65,7 @@ public class SNCommandHelp extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (helpMessages.size() == 5) {
 				helpMessages.add("/sn admin " + ChatColor.WHITE
 						+ "- Show list of admin-only commands");
@@ -74,7 +74,6 @@ public class SNCommandHelp extends SNCommand {
 			return;
 		}
 		String permissions2 = "supernatural.command.adminhelp";
-		Player senderPlayer = (Player) sender;
 
 		if (SupernaturalsPlugin.hasPermissions(senderPlayer, permissions2)) {
 			if (helpMessages.size() == 5) {

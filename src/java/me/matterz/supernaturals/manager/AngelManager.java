@@ -77,8 +77,7 @@ public class AngelManager extends ClassManager {
 		Action action = event.getAction();
 		Material itemInHandMaterial = player.getItemInHand().getType();
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		if (action.equals(Action.LEFT_CLICK_AIR)
-				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
+		if (action.equals(Action.LEFT_CLICK_AIR)) {
 			if (itemInHandMaterial.equals(Material.DANDELION)) {
 				if (snplayer.getPower() > SNConfigHandler.angelJumpPowerCost) {
 					jump(player, SNConfigHandler.angelJumpDeltaSpeed);
@@ -131,12 +130,12 @@ public class AngelManager extends ClassManager {
 		return damage;
 	}
 
-	public static boolean jump(Player player, double deltaSpeed) {
+	public static void jump(Player player, double deltaSpeed) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 
 		if (snplayer.getPower() < SNConfigHandler.angelJumpPowerCost) {
 			SuperNManager.sendMessage(snplayer, "Not enough Power to jump.");
-			return false;
+			return;
 		} else {
 			SuperNManager.alterPower(snplayer, -SNConfigHandler.angelJumpPowerCost, "SuperJump!");
 			if (SNConfigHandler.debugMode) {
@@ -149,7 +148,6 @@ public class AngelManager extends ClassManager {
 		vjadd.multiply(deltaSpeed);
 
 		player.setVelocity(player.getVelocity().add(vjadd));
-		return true;
 	}
 
 	@Override

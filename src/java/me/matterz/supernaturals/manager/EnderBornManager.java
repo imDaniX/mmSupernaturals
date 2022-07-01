@@ -17,9 +17,9 @@ import java.util.HashMap;
 
 public class EnderBornManager extends ClassManager {
 
-	public SupernaturalsPlugin plugin;
-	public HashMap<SuperNPlayer, Boolean> teleMap = new HashMap<SuperNPlayer, Boolean>();
-	public HashMap<SuperNPlayer, Integer> deathTimesMap = new HashMap<SuperNPlayer, Integer>();
+	public final SupernaturalsPlugin plugin;
+	public final HashMap<SuperNPlayer, Boolean> teleMap = new HashMap<>();
+	public final HashMap<SuperNPlayer, Integer> deathTimesMap = new HashMap<>();
 
 	public EnderBornManager(SupernaturalsPlugin instance) {
 		super();
@@ -73,31 +73,27 @@ public class EnderBornManager extends ClassManager {
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 
 		ItemStack item = pDamager.getItemInHand();
-		if (item != null) {
-			Material itemMaterial = item.getType();
+		Material itemMaterial = item.getType();
 
-			if (SNConfigHandler.enderWeapons.contains(itemMaterial)) {
-				SuperNManager.sendMessage(snDamager, ChatColor.RED
-						+ "EnderBorns cannot use "
-						+ itemMaterial.toString().replace('_', ' '));
-				return 0;
-			}
-			if (Math.random() == 0.35) {
-				damage += damage
-						* snDamager.scale(SNConfigHandler.enderDamageFactor);
-				return damage;
-			}
+		if (SNConfigHandler.enderWeapons.contains(itemMaterial)) {
+			SuperNManager.sendMessage(snDamager, ChatColor.RED
+					+ "EnderBorns cannot use "
+					+ itemMaterial.toString().replace('_', ' '));
+			return 0;
+		}
+		if (Math.random() == 0.35) {
+			damage += damage
+					* snDamager.scale(SNConfigHandler.enderDamageFactor);
+			return damage;
 		}
 		return damage;
 	}
 
 	@Override
 	public double victimEvent(EntityDamageEvent event, double damage) {
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) event;
+		if (event instanceof EntityDamageByEntityEvent edbeEvent) {
 			Entity victim = edbeEvent.getEntity();
-			if (victim instanceof Player) {
-				Player pVictim = (Player) victim;
+			if (victim instanceof Player pVictim) {
 				SuperNPlayer snVictim = SuperNManager.get(pVictim);
 
 				ItemStack item = pVictim.getItemInHand();

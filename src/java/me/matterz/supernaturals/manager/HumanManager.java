@@ -116,10 +116,6 @@ public class HumanManager extends ClassManager {
 		}
 	}
 
-	@Override
-	public void killEvent(Player pDamager, SuperNPlayer damager, SuperNPlayer victim) {
-	}
-
 	// -------------------------------------------- //
 	// Interact //
 	// -------------------------------------------- //
@@ -132,9 +128,5 @@ public class HumanManager extends ClassManager {
 	// -------------------------------------------- //
 	// Armor //
 	// -------------------------------------------- //
-
-	@Override
-	public void armorCheck(Player player) {
-	}
 
 }

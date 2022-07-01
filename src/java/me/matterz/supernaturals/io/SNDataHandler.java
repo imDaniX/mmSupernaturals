@@ -35,11 +35,11 @@ public class SNDataHandler implements Serializable {
 	 */
 	private static final long serialVersionUID = 2266551481298554973L;
 
-	private HashMap<SuperNPlayer, Location> teleportLocations = new HashMap<SuperNPlayer, Location>();
-	private HashMap<SuperNPlayer, SuperNPlayer> angels = new HashMap<SuperNPlayer, SuperNPlayer>();
-	private HashMap<SuperNPlayer, ArrayList<String>> hunterApps = new HashMap<SuperNPlayer, ArrayList<String>>();
+	private final HashMap<SuperNPlayer, Location> teleportLocations = new HashMap<>();
+	private final HashMap<SuperNPlayer, SuperNPlayer> angels = new HashMap<>();
+	private final HashMap<SuperNPlayer, ArrayList<String>> hunterApps = new HashMap<>();
 
-	private static String path = "plugins/mmSupernaturals/storage.dat";
+	private static final String path = "plugins/mmSupernaturals/storage.dat";
 
 	// -------------------------------------------- //
 	// Read/Write //
@@ -80,16 +80,12 @@ public class SNDataHandler implements Serializable {
 	}
 
 	public boolean checkPlayer(SuperNPlayer player) {
-		if (teleportLocations.containsKey(player)) {
-			return true;
-		}
-		return false;
+		return teleportLocations.containsKey(player);
 	}
 
 	public org.bukkit.Location getTeleport(SuperNPlayer player) {
 		Location location = teleportLocations.get(player);
-		org.bukkit.Location bLocation = new org.bukkit.Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
-		return bLocation;
+		return new org.bukkit.Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
 	}
 
 	// -------------------------------------------- //
@@ -97,10 +93,7 @@ public class SNDataHandler implements Serializable {
 	// -------------------------------------------- //
 
 	public boolean hasAngel(SuperNPlayer snplayer) {
-		if (angels.containsValue(snplayer)) {
-			return true;
-		}
-		return false;
+		return angels.containsValue(snplayer);
 	}
 
 	public void removeAngel(SuperNPlayer snplayer) {
@@ -132,16 +125,11 @@ public class SNDataHandler implements Serializable {
 	}
 
 	public boolean playerHasApp(SuperNPlayer player) {
-		if (hunterApps.containsKey(player)) {
-			return true;
-		}
-		return false;
+		return hunterApps.containsKey(player);
 	}
 
 	public void removePlayerApp(SuperNPlayer player) {
-		if (hunterApps.containsKey(player)) {
-			hunterApps.remove(player);
-		}
+		hunterApps.remove(player);
 	}
 
 }

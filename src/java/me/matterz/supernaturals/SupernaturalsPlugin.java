@@ -55,33 +55,20 @@ public class SupernaturalsPlugin extends JavaPlugin {
 
 	private final SNConfigHandler snConfig = new SNConfigHandler(this);
 	private SNDataHandler snData = new SNDataHandler();
-	private SNWhitelistHandler snWhitelist = new SNWhitelistHandler(this);
+	private final SNWhitelistHandler snWhitelist = new SNWhitelistHandler(this);
 
-	@SuppressWarnings("unused")
-	private SNEntityListener entityListener;
-	@SuppressWarnings("unused")
-	private SNPlayerListener playerListener;
-	@SuppressWarnings("unused")
-	private SNPlayerMonitor playerMonitor;
-	@SuppressWarnings("unused")
-	private SNEntityMonitor entityMonitor;
-	@SuppressWarnings("unused")
-	private SNBlockListener blockListener;
-	@SuppressWarnings("unused")
-	private SNServerMonitor serverMonitor;
+	private final SuperNManager superManager = new SuperNManager(this);
+	private final HumanManager humanManager = new HumanManager(this);
+	private final VampireManager vampManager = new VampireManager();
+	private final PriestManager priestManager = new PriestManager();
+	private final WereManager wereManager = new WereManager();
+	private final GhoulManager ghoulManager = new GhoulManager();
+	private final HunterManager hunterManager = new HunterManager();
+	private final DemonManager demonManager = new DemonManager();
+	private final EnderBornManager enderManager = new EnderBornManager(this);
+	private final AngelManager angelManager = new AngelManager();
 
-	private SuperNManager superManager = new SuperNManager(this);
-	private HumanManager humanManager = new HumanManager(this);
-	private VampireManager vampManager = new VampireManager();
-	private PriestManager priestManager = new PriestManager();
-	private WereManager wereManager = new WereManager();
-	private GhoulManager ghoulManager = new GhoulManager();
-	private HunterManager hunterManager = new HunterManager();
-	private DemonManager demonManager = new DemonManager();
-	private EnderBornManager enderManager = new EnderBornManager(this);
-	private AngelManager angelManager = new AngelManager();
-
-	public List<SNCommand> commands = new ArrayList<SNCommand>();
+	public final List<SNCommand> commands = new ArrayList<>();
 
 	private static File dataFolder;
 
@@ -200,12 +187,12 @@ public class SupernaturalsPlugin extends JavaPlugin {
 		commands.add(new SNCommandRestartTask());
 		commands.add(new SNCommandJoin());
 
-		entityListener = new SNEntityListener(this);
-		playerListener = new SNPlayerListener(this);
-		playerMonitor = new SNPlayerMonitor(this);
-		entityMonitor = new SNEntityMonitor(this);
-		blockListener = new SNBlockListener(this);
-		serverMonitor = new SNServerMonitor(this);
+		SNEntityListener entityListener = new SNEntityListener(this);
+		SNPlayerListener playerListener = new SNPlayerListener(this);
+		SNPlayerMonitor playerMonitor = new SNPlayerMonitor(this);
+		SNEntityMonitor entityMonitor = new SNEntityMonitor(this);
+		SNBlockListener blockListener = new SNBlockListener(this);
+		SNServerMonitor serverMonitor = new SNServerMonitor(this);
 
 		PluginDescriptionFile pdfFile = getDescription();
 		log(pdfFile.getName() + " version " + pdfFile.getVersion()
@@ -238,25 +225,23 @@ public class SupernaturalsPlugin extends JavaPlugin {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		List<String> parameters = new ArrayList<>(Arrays.asList(args));
 		if (sender instanceof Player) {
-			List<String> parameters = new ArrayList<String>(Arrays.asList(args));
 			if (SNConfigHandler.debugMode) {
-				SupernaturalsPlugin.log(((Player) sender).getName()
+				SupernaturalsPlugin.log(sender.getName()
 						+ " used command: " + commandLabel + " with args: "
 						+ TextUtil.implode(parameters, ", "));
 			}
 			handleCommand(sender, parameters, true);
-			return true;
 		} else {
-			List<String> parameters = new ArrayList<String>(Arrays.asList(args));
 			if (SNConfigHandler.debugMode) {
-				SupernaturalsPlugin.log(((Player) sender).getName()
+				SupernaturalsPlugin.log(sender.getName()
 						+ " used command: " + commandLabel + " with args: "
 						+ TextUtil.implode(parameters, ", "));
 			}
 			handleCommand(sender, parameters, false);
-			return true;
 		}
+		return true;
 	}
 
 	public void handleCommand(CommandSender sender, List<String> parameters, boolean isPlayer) {
@@ -361,7 +346,7 @@ public class SupernaturalsPlugin extends JavaPlugin {
 		Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
 		// WorldGuard may not be loaded
-		if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+		if (!(plugin instanceof WorldGuardPlugin)) {
 			return null; // Maybe you want throw an exception instead
 		}
 

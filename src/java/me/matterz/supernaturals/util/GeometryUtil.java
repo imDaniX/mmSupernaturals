@@ -19,10 +19,8 @@
 
 package me.matterz.supernaturals.util;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 
 import java.util.ArrayList;
 
@@ -32,24 +30,13 @@ public class GeometryUtil {
 		return getRadiusBlocks(centerBlock, radius, true);
 	}
 
-	public static ArrayList<Block> getCubeBlocks(Block centerBlock, double radius) {
-		return getRadiusBlocks(centerBlock, radius, false);
-	}
-
-	public static ArrayList<Block> getCubeBlocksAroundPlayer(Block centerBlock, double radius) {
-		ArrayList<Block> retval = getRadiusBlocks(centerBlock, radius, false);
-		retval.remove(centerBlock);
-		retval.remove(centerBlock.getRelative(BlockFace.UP));
-		return retval;
-	}
-
 	public static ArrayList<Block> getRadiusBlocks(Block centerBlock, double radius, boolean ball) {
 		return getRadiusBlocks(centerBlock, radius, ball, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 	}
 
 	// All those radius factors make it possible to select half balls etc.
 	public static ArrayList<Block> getRadiusBlocks(Block centerBlock, double radius, boolean ball, double xFromRadiusFactor, double xToRadiusFactor, double yFromRadiusFactor, double yToRadiusFactor, double zFromRadiusFactor, double zToRadiusFactor) {
-		ArrayList<Block> blocks = new ArrayList<Block>();
+		ArrayList<Block> blocks = new ArrayList<>();
 		int xFrom = (int) (-xFromRadiusFactor * radius);
 		int xTo = (int) (xToRadiusFactor * radius);
 		int yFrom = (int) (-yFromRadiusFactor * radius);
@@ -67,14 +54,6 @@ public class GeometryUtil {
 			}
 		}
 		return blocks;
-	}
-
-	// How long between two locations?
-	public static double distanceBetweenLocations(Location location1, Location location2) {
-		double X = location1.getX() - location2.getX();
-		double Y = location1.getY() - location2.getY();
-		double Z = location1.getZ() - location2.getZ();
-		return Math.sqrt(X * X + Y * Y + Z * Z);
 	}
 
 	public static int countNearby(Block centerBlock, Material material, double radius) {

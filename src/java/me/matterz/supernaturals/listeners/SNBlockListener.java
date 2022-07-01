@@ -34,9 +34,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class SNBlockListener implements Listener {
 
-	private SupernaturalsPlugin plugin;
-	private String permissions = "supernatural.player.witchhuntersign";
-	private String worldPermission = "supernatural.world.enabled";
+	private final SupernaturalsPlugin plugin;
 
 	public SNBlockListener(SupernaturalsPlugin instance) {
 		instance.getServer().getPluginManager().registerEvents(this, instance);
@@ -65,12 +63,14 @@ public class SNBlockListener implements Listener {
 	public void onSignChange(SignChangeEvent event) {
 		Player player = event.getPlayer();
 		String[] text = event.getLines();
+		String worldPermission = "supernatural.world.enabled";
 		if (!SupernaturalsPlugin.hasPermissions(player, worldPermission)
 				&& SNConfigHandler.multiworld) {
 			return;
 		}
-		for (int i = 0; i < text.length; i++) {
-			if (text[i].contains(SNConfigHandler.hunterHallMessage)) {
+		for (String s : text) {
+			if (s.contains(SNConfigHandler.hunterHallMessage)) {
+				String permissions = "supernatural.player.witchhuntersign";
 				if (!SupernaturalsPlugin.hasPermissions(player, permissions)) {
 					SuperNManager.sendMessage(SuperNManager.get(player), "You do not have permission to create WitchHunter signs");
 					event.setCancelled(true);

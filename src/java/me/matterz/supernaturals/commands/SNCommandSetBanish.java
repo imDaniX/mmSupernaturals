@@ -29,8 +29,8 @@ public class SNCommandSetBanish extends SNCommand {
 
 	public SNCommandSetBanish() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = true;
 		senderMustBeSupernatural = true;
 		permissions = "supernatural.admin.command.setbanish";

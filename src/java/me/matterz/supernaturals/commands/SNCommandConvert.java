@@ -31,8 +31,8 @@ import java.util.ArrayList;
 public class SNCommandConvert extends SNCommand {
 
 	public SNCommandConvert() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		optionalParameters.add("playername");
 		requiredParameters.add("supernaturalType");
@@ -41,12 +41,12 @@ public class SNCommandConvert extends SNCommand {
 		helpDescription = "Instantly turn a player into a supernatural.";
 	}
 
-	public static String permission2 = "supernatural.admin.partial.curse";
+	public static final String permission2 = "supernatural.admin.partial.curse";
 
 	@Override
 	public void perform() {
 
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (parameters.size() == 1) {
 				this.sendMessage("Missing player!");
 			} else {
@@ -117,7 +117,6 @@ public class SNCommandConvert extends SNCommand {
 			return;
 		}
 
-		Player senderPlayer = (Player) sender;
 		if (parameters.size() == 1) {
 			if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permission2)) {
 				if (!SNConfigHandler.spanish) {

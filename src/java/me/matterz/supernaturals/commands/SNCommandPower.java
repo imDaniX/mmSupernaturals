@@ -32,8 +32,8 @@ public class SNCommandPower extends SNCommand {
 
 	public SNCommandPower() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = true;
 		senderMustBeSupernatural = true;
 		permissions = "supernatural.command.power";
@@ -61,7 +61,6 @@ public class SNCommandPower extends SNCommand {
 						+ snplayer.getType() + ChatColor.RED
 						+ " y tus Poderes actuales son: " + ChatColor.WHITE
 						+ (int) snplayer.getPower());
-				return;
 			} else {
 				if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions2)) {
 					this.sendMessage("No tienes permiso para usar este comando.");
@@ -118,7 +117,6 @@ public class SNCommandPower extends SNCommand {
 						+ snplayer.getType() + ChatColor.RED
 						+ " and your current power level is: "
 						+ ChatColor.WHITE + (int) snplayer.getPower());
-				return;
 			} else {
 				if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions2)) {
 					this.sendMessage("You do not have permissions to use this command.");

@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SNCommandClasses extends SNCommand {
-	private static List<String> classMessages = new ArrayList<String>();
-	private static List<String> spanishClassMessages = new ArrayList<String>();
+	private static final List<String> classMessages = new ArrayList<>();
+	private static final List<String> spanishClassMessages = new ArrayList<>();
 
 	public SNCommandClasses() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		senderMustBeSupernatural = false;
 		permissions = "supernatural.command.classes";
@@ -82,11 +82,10 @@ public class SNCommandClasses extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			this.sendMessage(classMessages);
 			return;
 		}
-		Player senderPlayer = (Player) sender;
 
 		if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 			if (!SNConfigHandler.spanish) {

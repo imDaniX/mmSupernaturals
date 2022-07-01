@@ -45,7 +45,6 @@ public class SuperNPlayer implements Serializable {
 		oldSuperType = "human";
 		oldSuperPower = 0;
 		superPower = 0;
-		truce = true;
 		truceTimer = 0;
 	}
 
@@ -55,10 +54,6 @@ public class SuperNPlayer implements Serializable {
 
 	public String getName() {
 		return playername;
-	}
-
-	public void setName(String name) {
-		playername = name;
 	}
 
 	public String getType() {
@@ -115,81 +110,50 @@ public class SuperNPlayer implements Serializable {
 	// -------------------------------------------- //
 
 	public boolean isSuper() {
-		if (getType().equalsIgnoreCase("human")
-				|| getType().equalsIgnoreCase("priest")
-				|| getType().equalsIgnoreCase("witchhunter")
-				|| getType().equalsIgnoreCase("angel")) {
-			return false;
-		}
-		return true;
+		return !getType().equalsIgnoreCase("human")
+				&& !getType().equalsIgnoreCase("priest")
+				&& !getType().equalsIgnoreCase("witchhunter")
+				&& !getType().equalsIgnoreCase("angel");
 	}
 
 	public boolean isAngel() {
-		if (getType().equalsIgnoreCase("angel")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("angel");
 	}
 
 	public boolean isHuman() {
-		if (getType().equalsIgnoreCase("human")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("human");
 	}
 
 	public boolean isVampire() {
-		if (getType().equalsIgnoreCase("vampire")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("vampire");
 	}
 
 	public boolean isPriest() {
-		if (getType().equalsIgnoreCase("priest")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("priest");
 	}
 
 	public boolean isWere() {
-		if (getType().equalsIgnoreCase("werewolf")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("werewolf");
 	}
 
 	public boolean isEnderBorn() {
-		if (getType().equalsIgnoreCase("enderborn")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("enderborn");
 	}
 
 	public boolean isGhoul() {
-		if (getType().equalsIgnoreCase("ghoul")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("ghoul");
 	}
 
 	public boolean isHunter() {
-		if (getType().equalsIgnoreCase("witchhunter")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("witchhunter");
 	}
 
 	public boolean isDemon() {
-		if (getType().equalsIgnoreCase("demon")) {
-			return true;
-		}
-		return false;
+		return getType().equalsIgnoreCase("demon");
 	}
 
 	public double scale(double input) {
-		double powerPercentage = input * (getPower() / 10000);
-		return powerPercentage;
+		return input * (getPower() / 10000);
 	}
 
 	public boolean isOnline() {
@@ -220,10 +184,7 @@ public class SuperNPlayer implements Serializable {
 		if (d < min) {
 			return min;
 		}
-		if (d > max) {
-			return max;
-		}
-		return d;
+		return Math.min(d, max);
 	}
 
 	public double limitDouble(double d) {

@@ -27,16 +27,11 @@ import org.bukkit.util.Vector;
 
 public class ArrowUtil implements Runnable {
 
-	private Player player;
-	private Arrow arrow;
-	private Location targetLocation;
-	private long startTime;
-	private double grappleDistance;
-
-	public ArrowUtil(Player player, Arrow arrow) {
-		this.player = player;
-		this.arrow = arrow;
-	}
+	private final Player player;
+	private final Arrow arrow;
+	private final Location targetLocation;
+	private final long startTime;
+	private final double grappleDistance;
 
 	public ArrowUtil(Player player, Location targetLocation) {
 		this.player = player;
@@ -59,7 +54,6 @@ public class ArrowUtil implements Runnable {
 	public void run() {
 		if (arrow != null) {
 			SupernaturalsPlugin.instance.getHunterManager().splitArrow(player, arrow);
-			return;
 		} else {
 			if (player.getLocation().distance(targetLocation) < 3) {
 				SupernaturalsPlugin.instance.getHunterManager().stopGrappling(player);

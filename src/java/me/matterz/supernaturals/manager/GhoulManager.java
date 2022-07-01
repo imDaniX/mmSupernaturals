@@ -46,8 +46,7 @@ public class GhoulManager extends ClassManager {
 		super();
 	}
 
-	private String permissions = "supernatural.player.preventwaterdamage";
-	private HashMap<SuperNPlayer, SuperNPlayer> bonds = new HashMap<SuperNPlayer, SuperNPlayer>();
+	private final HashMap<SuperNPlayer, SuperNPlayer> bonds = new HashMap<>();
 
 	// -------------------------------------------- //
 	// Damage Events //
@@ -58,24 +57,20 @@ public class GhoulManager extends ClassManager {
 		if (event.getCause().equals(DamageCause.FALL)) {
 			event.setCancelled(true);
 			return 0;
-		} else if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) event;
+		} else if (event instanceof EntityDamageByEntityEvent edbeEvent) {
 			Entity damager = edbeEvent.getDamager();
-			if (damager instanceof Player) {
-				Player pDamager = (Player) damager;
+			if (damager instanceof Player pDamager) {
 				SuperNPlayer snDamager = SuperNManager.get(pDamager);
 				Player victim = (Player) event.getEntity();
 				SuperNPlayer snVictim = SuperNManager.get(victim);
 				ItemStack item = pDamager.getItemInHand();
 
-				if (item != null) {
-					if (SNConfigHandler.ghoulWeaponImmunity.contains(item.getType())) {
-						damage = 0;
-						SuperNManager.sendMessage(snDamager, "Ghouls are immune to that weapon!");
-					} else {
-						damage -= damage
-								* snVictim.scale(1 - SNConfigHandler.ghoulDamageReceivedFactor);
-					}
+				if (SNConfigHandler.ghoulWeaponImmunity.contains(item.getType())) {
+					damage = 0;
+					SuperNManager.sendMessage(snDamager, "Ghouls are immune to that weapon!");
+				} else {
+					damage -= damage
+							* snVictim.scale(1 - SNConfigHandler.ghoulDamageReceivedFactor);
 				}
 			}
 		}
@@ -89,19 +84,17 @@ public class GhoulManager extends ClassManager {
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 		ItemStack item = pDamager.getItemInHand();
 
-		if (item != null) {
-			if (SNConfigHandler.ghoulWeapons.contains(item.getType())) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(pDamager.getName()
-							+ " was not allowed to use "
-							+ item.getType().toString());
-				}
-				SuperNManager.sendMessage(snDamager, "Ghouls cannot use this weapon!");
-				damage = 0;
-			} else {
-				damage += damage
-						* snDamager.scale(SNConfigHandler.ghoulDamageFactor);
+		if (SNConfigHandler.ghoulWeapons.contains(item.getType())) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(pDamager.getName()
+						+ " was not allowed to use "
+						+ item.getType());
 			}
+			SuperNManager.sendMessage(snDamager, "Ghouls cannot use this weapon!");
+			damage = 0;
+		} else {
+			damage += damage
+					* snDamager.scale(SNConfigHandler.ghoulDamageFactor);
 		}
 		return damage;
 	}
@@ -204,6 +197,7 @@ public class GhoulManager extends ClassManager {
 		if (player.isDead()) {
 			return;
 		}
+		String permissions = "supernatural.player.preventwaterdamage";
 		if (SupernaturalsPlugin.hasPermissions(player, permissions)) {
 			return;
 		}
@@ -238,9 +232,7 @@ public class GhoulManager extends ClassManager {
 
 		Material itemMaterial = player.getItemInHand().getType();
 
-		if (player.getItemInHand() == null) {
-			return;
-		}
+		player.getItemInHand();
 
 		if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.ghoulBondMaterial)) {
 			if (SNConfigHandler.debugMode) {
@@ -401,12 +393,12 @@ public class GhoulManager extends ClassManager {
 		return null;
 	}
 
-	public boolean summon(Player player) {
+	public void summon(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		ItemStack item = player.getItemInHand();
 		if (!SupernaturalsPlugin.instance.getSpawn(player)) {
 			SuperNManager.sendMessage(snplayer, "You cannot summon here.");
-			return false;
+			return;
 		}
 		if (snplayer.getPower() > SNConfigHandler.ghoulPowerSummonCost) {
 			player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
@@ -420,10 +412,8 @@ public class GhoulManager extends ClassManager {
 			} else {
 				item.setAmount(player.getItemInHand().getAmount() - 1);
 			}
-			return true;
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to summon.");
-			return false;
 		}
 	}
 
@@ -441,7 +431,6 @@ public class GhoulManager extends ClassManager {
 		Block blockCurrent = player.getLocation().getBlock();
 
 		if (player.getLocation().getY() >= 126) {
-			retVal = false;
 		} else {
 			// blockCurrent = blockCurrent.getFace(BlockFace.UP, 1); //What was
 			// the point anyway?

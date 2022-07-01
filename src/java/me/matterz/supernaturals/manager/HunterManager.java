@@ -37,10 +37,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -55,13 +53,13 @@ public class HunterManager extends HumanManager {
 		super();
 	}
 
-	private HashMap<Arrow, String> arrowMap = new HashMap<Arrow, String>();
-	private HashMap<SuperNPlayer, String> hunterMap = new HashMap<SuperNPlayer, String>();
-	private ArrayList<Player> grapplingPlayers = new ArrayList<Player>();
-	private ArrayList<Player> drainedPlayers = new ArrayList<Player>();
-	private ArrayList<Location> hallDoors = new ArrayList<Location>();
-	private ArrayList<SuperNPlayer> playerInvites = new ArrayList<SuperNPlayer>();
-	private static ArrayList<SuperNPlayer> bountyList = new ArrayList<SuperNPlayer>();
+	private final HashMap<Arrow, String> arrowMap = new HashMap<>();
+	private final HashMap<SuperNPlayer, String> hunterMap = new HashMap<>();
+	private final ArrayList<Player> grapplingPlayers = new ArrayList<>();
+	private final ArrayList<Player> drainedPlayers = new ArrayList<>();
+	private final ArrayList<Location> hallDoors = new ArrayList<>();
+	private final ArrayList<SuperNPlayer> playerInvites = new ArrayList<>();
+	private static final ArrayList<SuperNPlayer> bountyList = new ArrayList<>();
 
 	private String arrowType = "normal";
 
@@ -81,20 +79,15 @@ public class HunterManager extends HumanManager {
 	}
 
 	@Override
-	public boolean shootArrow(Player shooter, EntityShootBowEvent event) {
-		boolean cancelled = shoot(shooter);
-		if (cancelled) {
-			return true;
-		}
-		return false;
+	public boolean shootArrow(Player shooter) {
+		return shoot(shooter);
 	}
 
 	@Override
 	public double damagerEvent(EntityDamageByEntityEvent event, double damage) {
 		if (event.getDamager() instanceof Projectile) {
 			Entity victim = event.getEntity();
-			if (event.getDamager() instanceof Arrow) {
-				Arrow arrow = (Arrow) event.getDamager();
+			if (event.getDamager() instanceof Arrow arrow) {
 				if (getArrowMap().containsKey(arrow)) {
 					arrowType = getArrowType(arrow);
 				} else {
@@ -117,16 +110,14 @@ public class HunterManager extends HumanManager {
 			ItemStack item = pDamager.getItemInHand();
 
 			// Check Weapons and Modify Damage
-			if (item != null) {
-				if (SNConfigHandler.hunterWeapons.contains(item.getType())) {
-					if (SNConfigHandler.debugMode) {
-						SupernaturalsPlugin.log(pDamager.getName()
-								+ " was not allowed to use "
-								+ item.getType().toString());
-					}
-					SuperNManager.sendMessage(snDamager, "WitchHunters cannot use this weapon!");
-					return 0;
+			if (SNConfigHandler.hunterWeapons.contains(item.getType())) {
+				if (SNConfigHandler.debugMode) {
+					SupernaturalsPlugin.log(pDamager.getName()
+							+ " was not allowed to use "
+							+ item.getType());
 				}
+				SuperNManager.sendMessage(snDamager, "WitchHunters cannot use this weapon!");
+				return 0;
 			}
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log("Bow Event with " + damage + " damage");
@@ -142,26 +133,6 @@ public class HunterManager extends HumanManager {
 		SuperNManager.alterPower(snplayer, -SNConfigHandler.hunterDeathPowerPenalty, "You died!");
 	}
 
-	@Override
-	public void killEvent(Player pDamager, SuperNPlayer damager, SuperNPlayer victim) {
-		if (victim == null) {
-			if (SNConfigHandler.hunterKillPowerCreatureGain > 0) {
-				SuperNManager.alterPower(damager, SNConfigHandler.hunterKillPowerCreatureGain, "Creature death!");
-			}
-		} else {
-			if (victim.getPower() > SNConfigHandler.hunterKillPowerPlayerGain) {
-				SuperNManager.alterPower(damager, SNConfigHandler.hunterKillPowerPlayerGain, "Player killed!");
-				if (HunterManager.checkBounty(victim)) {
-					SuperNManager.alterPower(damager, SNConfigHandler.hunterBountyCompletion, "Bounty Fulfilled!");
-					HunterManager.removeBounty(victim);
-					HunterManager.addBounty();
-				}
-			} else {
-				SuperNManager.sendMessage(damager, "You cannot gain power from a player with no power themselves.");
-			}
-		}
-	}
-
 	// -------------------------------------------- //
 	// Interact //
 	// -------------------------------------------- //
@@ -175,9 +146,7 @@ public class HunterManager extends HumanManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (player.getItemInHand() == null) {
-				return false;
-			}
+			player.getItemInHand();
 
 			if (player.getItemInHand().getType().equals(Material.BOW)) {
 				changeArrowType(snplayer);
@@ -191,40 +160,6 @@ public class HunterManager extends HumanManager {
 	// Armor //
 	// -------------------------------------------- //
 
-	@Override
-	public void armorCheck(Player player) {
-		PlayerInventory inv = player.getInventory();
-		ItemStack helmet = inv.getHelmet();
-		ItemStack chest = inv.getChestplate();
-		ItemStack leggings = inv.getLeggings();
-		ItemStack boots = inv.getBoots();
-
-		if (helmet != null) {
-			if (!SNConfigHandler.hunterArmor.contains(helmet.getType())) {
-				inv.setHelmet(null);
-				dropItem(player, helmet);
-			}
-		}
-		if (chest != null) {
-			if (!SNConfigHandler.hunterArmor.contains(chest.getType())) {
-				inv.setChestplate(null);
-				dropItem(player, chest);
-			}
-		}
-		if (leggings != null) {
-			if (!SNConfigHandler.hunterArmor.contains(leggings.getType())) {
-				inv.setLeggings(null);
-				dropItem(player, leggings);
-			}
-		}
-		if (boots != null) {
-			if (!SNConfigHandler.hunterArmor.contains(boots.getType())) {
-				inv.setBoots(null);
-				dropItem(player, boots);
-			}
-		}
-	}
-
 	// -------------------------------------------- //
 	// Bounties //
 	// -------------------------------------------- //
@@ -234,10 +169,7 @@ public class HunterManager extends HumanManager {
 	}
 
 	public static boolean checkBounty(SuperNPlayer snplayer) {
-		if (bountyList.contains(snplayer)) {
-			return true;
-		}
-		return false;
+		return bountyList.contains(snplayer);
 	}
 
 	public static boolean removeBounty(SuperNPlayer snplayer) {
@@ -264,7 +196,6 @@ public class HunterManager extends HumanManager {
 						+ sntarget.getName()
 						+ ChatColor.RED
 						+ " has been added to the WitchHunter target list!");
-				bountyFound = true;
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log("Bounty created on "
 							+ sntarget.getName());
@@ -279,7 +210,7 @@ public class HunterManager extends HumanManager {
 	}
 
 	public static void updateBounties() {
-		List<SuperNPlayer> snplayers = new ArrayList<SuperNPlayer>();
+		List<SuperNPlayer> snplayers = new ArrayList<>();
 
 		if (bountyList.isEmpty()) {
 			return;
@@ -345,10 +276,7 @@ public class HunterManager extends HumanManager {
 	}
 
 	public boolean doorIsOpening(Location location) {
-		if (hallDoors.contains(location)) {
-			return true;
-		}
-		return false;
+		return hallDoors.contains(location);
 	}
 
 	public boolean doorEvent(Player player, Block block, Door door) {
@@ -377,12 +305,7 @@ public class HunterManager extends HumanManager {
 			addDoorLocation(loc);
 			addDoorLocation(door.getHalf() == Bisected.Half.TOP ? loc.clone().subtract(0, 1, 0) : loc.clone().add(0, 1, 0));
 
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-				@Override
-				public void run() {
-					closeDoor(loc);
-				}
-			}, 20);
+			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> closeDoor(loc), 20);
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log("WitchHunter door is set open.");
 			}
@@ -411,14 +334,11 @@ public class HunterManager extends HumanManager {
 	// -------------------------------------------- //
 
 	public void invite(final SuperNPlayer snplayer) {
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-			@Override
-			public void run() {
-				SuperNManager.sendMessage(snplayer, "You have been invited to join the WitchHunter society!");
-				SuperNManager.sendMessage(snplayer, "If you wish to accept this invitation visit a WitchHunters' Hall");
-				if (!playerInvites.contains(snplayer)) {
-					playerInvites.add(snplayer);
-				}
+		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+			SuperNManager.sendMessage(snplayer, "You have been invited to join the WitchHunter society!");
+			SuperNManager.sendMessage(snplayer, "If you wish to accept this invitation visit a WitchHunters' Hall");
+			if (!playerInvites.contains(snplayer)) {
+				playerInvites.add(snplayer);
 			}
 		}, 200);
 	}
@@ -436,7 +356,7 @@ public class HunterManager extends HumanManager {
 	// Arrow Management //
 	// -------------------------------------------- //
 
-	public boolean changeArrowType(SuperNPlayer snplayer) {
+	public void changeArrowType(SuperNPlayer snplayer) {
 		String currentType = hunterMap.get(snplayer);
 		if (currentType == null) {
 			currentType = "normal";
@@ -462,7 +382,6 @@ public class HunterManager extends HumanManager {
 			SupernaturalsPlugin.log(snplayer.getName()
 					+ " changed to arrow type: " + nextType);
 		}
-		return true;
 	}
 
 	public String getArrowType(Arrow arrow) {
@@ -474,12 +393,7 @@ public class HunterManager extends HumanManager {
 	}
 
 	public void removeArrow(final Arrow arrow) {
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-			@Override
-			public void run() {
-				arrowMap.remove(arrow);
-			}
-		}, 20);
+		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> arrowMap.remove(arrow), 20);
 	}
 
 	// -------------------------------------------- //
@@ -540,12 +454,7 @@ public class HunterManager extends HumanManager {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.hunterPowerArrowTriple, "Triple Arrow!");
 				final Arrow arrow = player.launchProjectile(Arrow.class);
 				arrowMap.put(arrow, arrowType);
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-					@Override
-					public void run() {
-						splitArrow(player, arrow);
-					}
-				}, 4);
+				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
 				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to shoot Triple Arrows!");
@@ -562,16 +471,13 @@ public class HunterManager extends HumanManager {
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(snplayer.getName() + " is drained.");
 				}
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-					@Override
-					public void run() {
-						drainedPlayers.remove(player);
-						if (player.isOnline()) {
-							SuperNManager.sendMessage(snplayer, "You can shoot again!");
-						}
-						SupernaturalsPlugin.log(snplayer.getName()
-								+ " is no longer drained.");
+				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+					drainedPlayers.remove(player);
+					if (player.isOnline()) {
+						SuperNManager.sendMessage(snplayer, "You can shoot again!");
 					}
+					SupernaturalsPlugin.log(snplayer.getName()
+							+ " is no longer drained.");
 				}, SNConfigHandler.hunterCooldown / 50);
 				return true;
 			} else {
@@ -605,12 +511,7 @@ public class HunterManager extends HumanManager {
 		String arrowType = arrowMap.get(arrow);
 		if (arrowType.equals("triple")) {
 			arrowMap.put(arrow, "double");
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-				@Override
-				public void run() {
-					splitArrow(player, arrow);
-				}
-			}, 4);
+			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
 		} else {
 			arrowMap.remove(arrow);
 		}
@@ -633,12 +534,7 @@ public class HunterManager extends HumanManager {
 		if (isGrappling(player)) {
 			Vector v = new Vector(0, 0, 0);
 			player.setVelocity(v);
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-				@Override
-				public void run() {
-					grapplingPlayers.remove(player);
-				}
-			}, 20 * 2);
+			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> grapplingPlayers.remove(player), 20 * 2);
 		}
 	}
 }

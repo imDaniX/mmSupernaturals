@@ -31,8 +31,8 @@ import java.util.ArrayList;
 public class SNCommandCure extends SNCommand {
 	public SNCommandCure() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		optionalParameters.add("playername");
 		permissions = "supernatural.admin.command.cure";
@@ -40,7 +40,7 @@ public class SNCommandCure extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (parameters.isEmpty()) {
 				this.sendMessage("Missing Player!");
 			} else {
@@ -62,7 +62,6 @@ public class SNCommandCure extends SNCommand {
 			}
 			return;
 		}
-		Player senderPlayer = (Player) sender;
 		if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 			if (!SNConfigHandler.spanish) {
 				this.sendMessage("You do not have permissions to use this command.");

@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class SNPlayerHandler {
-
-	@SuppressWarnings("unchecked")
 	public static List<SuperNPlayer> load(File file) {
 		Constructor constructor = new Constructor();
 		constructor.addTypeDescription(new TypeDescription(SuperNPlayer.class, new Tag("player")));
@@ -43,10 +41,10 @@ public class SNPlayerHandler {
 		Yaml yaml = new Yaml(constructor);
 
 		try {
-			List<SuperNPlayer> supernaturals = (List<SuperNPlayer>) yaml.load(new FileReader(file));
+			List<SuperNPlayer> supernaturals = yaml.load(new FileReader(file));
 
 			if (supernaturals == null) {
-				return new ArrayList<SuperNPlayer>();
+				return new ArrayList<>();
 			}
 
 			return supernaturals;

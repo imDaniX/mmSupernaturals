@@ -33,8 +33,8 @@ import java.util.List;
 public class SNCommandKillList extends SNCommand {
 
 	public SNCommandKillList() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = true;
 		permissions = "supernatural.command.killlist";
 		helpNameAndParams = "convert [playername] [supernaturalType]";
@@ -63,7 +63,7 @@ public class SNCommandKillList extends SNCommand {
 			ArrayList<SuperNPlayer> bountyList = HunterManager.getBountyList();
 
 			// Create Messages
-			List<String> messages = new ArrayList<String>();
+			List<String> messages = new ArrayList<>();
 			messages.add("*** " + ChatColor.WHITE
 					+ "Current WitchHunter Targets " + ChatColor.RED + "***");
 			for (SuperNPlayer snplayer : bountyList) {
@@ -82,7 +82,7 @@ public class SNCommandKillList extends SNCommand {
 			ArrayList<SuperNPlayer> bountyList = HunterManager.getBountyList();
 
 			// Create Messages
-			List<String> messages = new ArrayList<String>();
+			List<String> messages = new ArrayList<>();
 			messages.add("*** " + ChatColor.WHITE
 					+ "Objetivos para Cazadores de Brujas: " + ChatColor.RED
 					+ "***");

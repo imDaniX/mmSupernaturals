@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 public class SNServerMonitor implements Listener {
 
-	public SupernaturalsPlugin plugin;
+	public final SupernaturalsPlugin plugin;
 
 	public SNServerMonitor(SupernaturalsPlugin instance) {
 		instance.getServer().getPluginManager().registerEvents(this, instance);

@@ -31,8 +31,8 @@ public class SNCommandReload extends SNCommand {
 	public String msgSaveFail = "FAILED to save %s.";
 
 	public SNCommandReload() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		optionalParameters.add("type");
 		senderMustBePlayer = false;
 		permissions = "supernatural.admin.command.reload";
@@ -42,7 +42,7 @@ public class SNCommandReload extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (parameters.isEmpty()) {
 				SupernaturalsPlugin.reConfig();
 				this.sendMessage("Config file has been reloaded");
@@ -59,7 +59,6 @@ public class SNCommandReload extends SNCommand {
 			}
 			return;
 		}
-		Player senderPlayer = (Player) sender;
 		if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 			this.sendMessage("You do not have permissions to use this command.");
 			return;

@@ -49,9 +49,9 @@ public class DemonManager extends ClassManager {
 		super();
 	}
 
-	private HashMap<Block, Location> webMap = new HashMap<Block, Location>();
-	private ArrayList<Player> demonApps = new ArrayList<Player>();
-	private List<Player> demons = new ArrayList<Player>();
+	private final HashMap<Block, Location> webMap = new HashMap<>();
+	private final ArrayList<Player> demonApps = new ArrayList<>();
+	private final List<Player> demons = new ArrayList<>();
 
 	// -------------------------------------------- //
 	// Damage Events //
@@ -78,12 +78,7 @@ public class DemonManager extends ClassManager {
 				demons.add(dPlayer);
 				heal(victim);
 				SuperNManager.alterPower(snVictim, SNConfigHandler.demonPowerGain, "Lava!");
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-					@Override
-					public void run() {
-						demons.remove(dPlayer);
-					}
-				}, 41);
+				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> demons.remove(dPlayer), 41);
 			}
 			victim.setFireTicks(0);
 			event.setCancelled(true);
@@ -100,18 +95,16 @@ public class DemonManager extends ClassManager {
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 		ItemStack item = pDamager.getItemInHand();
 
-		if (item != null)
-			if (SNConfigHandler.demonWeapons.contains(item.getType())) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(pDamager.getName()
-							+ " was not allowed to use "
-							+ item.getType().toString());
-				}
-				SuperNManager.sendMessage(snDamager, "Demons cannot use this weapon!");
-				damage = 0;
+		if (SNConfigHandler.demonWeapons.contains(item.getType())) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(pDamager.getName()
+						+ " was not allowed to use "
+						+ item.getType());
 			}
-		if (victim instanceof Player) {
-			Player pVictim = (Player) victim;
+			SuperNManager.sendMessage(snDamager, "Demons cannot use this weapon!");
+			damage = 0;
+		}
+		if (victim instanceof Player pVictim) {
 			double random = Math.random();
 			if (random < 0.35) {
 				pVictim.setFireTicks(SNConfigHandler.demonFireTicks);
@@ -185,11 +178,9 @@ public class DemonManager extends ClassManager {
 
 		Material itemMaterial = player.getItemInHand().getType();
 
-		boolean cancelled = false;
+		boolean cancelled;
 
-		if (player.getItemInHand() == null) {
-			return false;
-		}
+		player.getItemInHand();
 
 		if (!(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK))) {
 			return false;
@@ -199,7 +190,7 @@ public class DemonManager extends ClassManager {
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log(player.getName()
 						+ " is casting FIREBALL with "
-						+ itemMaterial.toString());
+						+ itemMaterial);
 			}
 			cancelled = fireball(player);
 			if (!event.isCancelled() && cancelled) {
@@ -209,7 +200,7 @@ public class DemonManager extends ClassManager {
 		} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.demonSnareMaterial)) {
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log(player.getName()
-						+ " is casting SNARE with " + itemMaterial.toString());
+						+ " is casting SNARE with " + itemMaterial);
 			}
 			Player target = SupernaturalsPlugin.instance.getSuperManager().getTarget(player);
 			cancelled = snare(player, target);
@@ -348,11 +339,9 @@ public class DemonManager extends ClassManager {
 		Player player = (Player) event.getDamager();
 		Material itemMaterial = player.getItemInHand().getType();
 
-		boolean cancelled = false;
+		boolean cancelled;
 
-		if (player.getItemInHand() == null) {
-			return;
-		}
+		player.getItemInHand();
 
 		if (itemMaterial.equals(Material.NETHERRACK)) {
 			cancelled = convert(player, target);
@@ -436,21 +425,18 @@ public class DemonManager extends ClassManager {
 			}
 		}
 
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
-			@Override
-			public void run() {
-				List<Block> blocks = new ArrayList<Block>();
-				for (Block block : webMap.keySet()) {
-					if (webMap.get(block).equals(loc)) {
-						block.setType(Material.AIR);
-						blocks.add(block);
-					}
+		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+			List<Block> blocks = new ArrayList<>();
+			for (Block block1 : webMap.keySet()) {
+				if (webMap.get(block1).equals(loc)) {
+					block1.setType(Material.AIR);
+					blocks.add(block1);
 				}
-				for (Block block : blocks) {
-					webMap.remove(block);
-					if (SNConfigHandler.debugMode) {
-						SupernaturalsPlugin.log("Removed web block.");
-					}
+			}
+			for (Block block1 : blocks) {
+				webMap.remove(block1);
+				if (SNConfigHandler.debugMode) {
+					SupernaturalsPlugin.log("Removed web block.");
 				}
 			}
 		}, SNConfigHandler.demonSnareDuration / 50);

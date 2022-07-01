@@ -41,23 +41,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class SNPlayerListener implements Listener {
 
-	public SupernaturalsPlugin plugin;
-	private String worldPermission = "supernatural.world.enabled";
+	public final SupernaturalsPlugin plugin;
+	private final String worldPermission = "supernatural.world.enabled";
 
 	public SNPlayerListener(SupernaturalsPlugin instance) {
 		instance.getServer().getPluginManager().registerEvents(this, instance);
 		plugin = instance;
 	}
-
-	// @Override
-	// public void onPlayerToggleSneak(PlayerToggleSneakEvent event){
-	// Player player = event.getPlayer();
-	// SuperNPlayer snplayer = SupernaturalManager.get(player);
-	// if(snplayer.isHunter()){
-	// player.setSneaking(true);
-	// event.setCancelled(true);
-	// }
-	// }
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerInteract(PlayerInteractEvent event) {
@@ -124,12 +114,12 @@ public class SNPlayerListener implements Listener {
 								}
 								Sign sign = (Sign) newBlock.getState();
 								String[] text = sign.getLines();
-								for (int i = 0; i < text.length; i++) {
+								for (String s : text) {
 									if (SNConfigHandler.debugMode) {
 										SupernaturalsPlugin.log("The sign says: "
-												+ text[i]);
+												+ s);
 									}
-									if (text[i].contains(SNConfigHandler.hunterHallMessage)) {
+									if (s.contains(SNConfigHandler.hunterHallMessage)) {
 										if (plugin.getHunterManager().doorIsOpening(blockLoc)) {
 											if (SNConfigHandler.debugMode) {
 												SupernaturalsPlugin.log("Cancelled door event.");
@@ -150,7 +140,7 @@ public class SNPlayerListener implements Listener {
 			}
 		}
 
-		boolean cancelled = false;
+		boolean cancelled;
 
 		cancelled = plugin.getClassManager(player).playerInteract(event);
 

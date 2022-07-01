@@ -32,8 +32,8 @@ import java.util.ArrayList;
 public class SNCommandRmTarget extends SNCommand {
 	public SNCommandRmTarget() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		optionalParameters.add("playername");
 		permissions = "supernatural.admin.command.rmtarget";
@@ -41,17 +41,12 @@ public class SNCommandRmTarget extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (parameters.isEmpty()) {
 				this.sendMessage("Missing player!");
 			} else {
 				String playername = parameters.get(0);
 				SuperNPlayer snplayer = SuperNManager.get(playername);
-
-				if (snplayer == null) {
-					this.sendMessage("Player not found.");
-					return;
-				}
 
 				if (HunterManager.removeBounty(snplayer)) {
 					this.sendMessage(ChatColor.WHITE + snplayer.getName()
@@ -67,7 +62,6 @@ public class SNCommandRmTarget extends SNCommand {
 			}
 			return;
 		}
-		Player senderPlayer = (Player) sender;
 		if (SNConfigHandler.spanish) {
 			if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 				this.sendMessage("No tienes permiso para este comando.");
@@ -78,30 +72,21 @@ public class SNCommandRmTarget extends SNCommand {
 				SuperNPlayer snplayer = SuperNManager.get(senderPlayer);
 				if (HunterManager.removeBounty(snplayer)) {
 					this.sendMessage("Fuiste eliminado de la lista de objetivos!");
-					return;
 				} else {
 					this.sendMessage("No eres un objetivo activo.");
-					return;
 				}
 			} else {
 				String playername = parameters.get(0);
 				SuperNPlayer snplayer = SuperNManager.get(playername);
-
-				if (snplayer == null) {
-					this.sendMessage("Jugador no encontrado.");
-					return;
-				}
 
 				if (HunterManager.removeBounty(snplayer)) {
 					this.sendMessage(ChatColor.WHITE + snplayer.getName()
 							+ ChatColor.RED
 							+ " ha sido removido de la lista de objetivos!");
 					HunterManager.addBounty();
-					return;
 				} else {
 					this.sendMessage(ChatColor.WHITE + snplayer.getName()
 							+ ChatColor.RED + " no es un objetivo activo.");
-					return;
 				}
 			}
 		} else {
@@ -114,30 +99,21 @@ public class SNCommandRmTarget extends SNCommand {
 				SuperNPlayer snplayer = SuperNManager.get(senderPlayer);
 				if (HunterManager.removeBounty(snplayer)) {
 					this.sendMessage("You were removed from the target list!");
-					return;
 				} else {
 					this.sendMessage("You are not an active target.");
-					return;
 				}
 			} else {
 				String playername = parameters.get(0);
 				SuperNPlayer snplayer = SuperNManager.get(playername);
-
-				if (snplayer == null) {
-					this.sendMessage("Player not found.");
-					return;
-				}
 
 				if (HunterManager.removeBounty(snplayer)) {
 					this.sendMessage(ChatColor.WHITE + snplayer.getName()
 							+ ChatColor.RED
 							+ " was removed from the target list!");
 					HunterManager.addBounty();
-					return;
 				} else {
 					this.sendMessage(ChatColor.WHITE + snplayer.getName()
 							+ ChatColor.RED + " is not an active target.");
-					return;
 				}
 			}
 		}

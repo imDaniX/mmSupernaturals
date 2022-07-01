@@ -58,23 +58,20 @@ public class PriestManager extends HumanManager {
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 		ItemStack item = pDamager.getItemInHand();
 
-		if (item != null) {
-			if (SNConfigHandler.priestWeapons.contains(item.getType())) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(pDamager.getName()
-							+ " was not allowed to use "
-							+ item.getType().toString());
-				}
-				SuperNManager.sendMessage(snDamager, "Priests cannot use this weapon!");
-				return 0;
+		if (SNConfigHandler.priestWeapons.contains(item.getType())) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(pDamager.getName()
+						+ " was not allowed to use "
+						+ item.getType());
 			}
+			SuperNManager.sendMessage(snDamager, "Priests cannot use this weapon!");
+			return 0;
 		}
 
 		if (victim instanceof Animals && !(victim instanceof Wolf)) {
 			SuperNManager.sendMessage(SuperNManager.get(pDamager), "You cannot hurt innocent animals.");
 			damage = 0;
-		} else if (victim instanceof Player) {
-			Player pVictim = (Player) victim;
+		} else if (victim instanceof Player pVictim) {
 			if (!SupernaturalsPlugin.instance.getPvP(pVictim)) {
 				return damage;
 			}
@@ -89,8 +86,7 @@ public class PriestManager extends HumanManager {
 				damage += damage
 						* SuperNManager.get(pDamager).scale(SNConfigHandler.priestDamageFactorAttackHuman);
 			}
-		} else if (victim instanceof Monster) {
-			Monster mVictim = (Monster) victim;
+		} else if (victim instanceof Monster mVictim) {
 			mVictim.setFireTicks(SNConfigHandler.priestFireTicks);
 		}
 		return damage;
@@ -101,10 +97,6 @@ public class PriestManager extends HumanManager {
 		super.deathEvent(player);
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		SuperNManager.alterPower(snplayer, -SNConfigHandler.priestDeathPowerPenalty, "You died!");
-	}
-
-	@Override
-	public void killEvent(Player pDamager, SuperNPlayer damager, SuperNPlayer victim) {
 	}
 
 	// -------------------------------------------- //
@@ -137,40 +129,6 @@ public class PriestManager extends HumanManager {
 	// -------------------------------------------- //
 	// Armor //
 	// -------------------------------------------- //
-
-	@Override
-	public void armorCheck(Player player) {
-		PlayerInventory inv = player.getInventory();
-		ItemStack helmet = inv.getHelmet();
-		ItemStack chest = inv.getChestplate();
-		ItemStack leggings = inv.getLeggings();
-		ItemStack boots = inv.getBoots();
-
-		if (helmet != null) {
-			if (!SNConfigHandler.priestArmor.contains(helmet.getType())) {
-				inv.setHelmet(null);
-				dropItem(player, helmet);
-			}
-		}
-		if (chest != null) {
-			if (!SNConfigHandler.priestArmor.contains(chest.getType())) {
-				inv.setChestplate(null);
-				dropItem(player, chest);
-			}
-		}
-		if (leggings != null) {
-			if (!SNConfigHandler.priestArmor.contains(leggings.getType())) {
-				inv.setLeggings(null);
-				dropItem(player, leggings);
-			}
-		}
-		if (boots != null) {
-			if (!SNConfigHandler.priestArmor.contains(boots.getType())) {
-				inv.setBoots(null);
-				dropItem(player, boots);
-			}
-		}
-	}
 
 	// -------------------------------------------- //
 	// Church //
@@ -293,69 +251,62 @@ public class PriestManager extends HumanManager {
 
 		boolean cancelled = false;
 
-		if (player.getItemInHand() == null) {
-			return;
-		}
+		player.getItemInHand();
 
-		if (itemMaterial != null) {
-			if (SNConfigHandler.priestSpellMaterials.contains(itemMaterial)) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(snplayer.getName()
-							+ " is attempting to cast a spell...");
-				}
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(target.getName()
-							+ " is targetted by spell.");
-				}
-				if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(0))) {
-					banish(player, target);
-					cancelled = true;
-				} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(1))) {
-					exorcise(player, target);
-					cancelled = true;
-				} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(2))) {
-					cancelled = cure(player, target, itemMaterial);
-				} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(3))) {
-					cancelled = heal(player, target);
-				} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(4))) {
-					drainPower(player, target);
-					cancelled = true;
-				}
-				if (!event.isCancelled()) {
-					event.setCancelled(cancelled);
-				}
-				return;
-			} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.priestSpellGuardianAngel)) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(snplayer.getName()
-							+ " is attempting to cast guardian angel...");
-				}
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(target.getName()
-							+ " is targetted by guardian angel.");
-				}
-				cancelled = guardianAngel(player, target);
-				if (!event.isCancelled()) {
-					event.setCancelled(cancelled);
-				}
-				return;
-			} else if (itemMaterial.equals(Material.BOWL)) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(snplayer.getName()
-							+ " is attempting to donate remotely.");
-				}
-				remoteDonations(player);
-				return;
+		if (SNConfigHandler.priestSpellMaterials.contains(itemMaterial)) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(snplayer.getName()
+						+ " is attempting to cast a spell...");
 			}
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(target.getName()
+						+ " is targetted by spell.");
+			}
+			if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(0))) {
+				banish(player, target);
+				cancelled = true;
+			} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(1))) {
+				exorcise(player, target);
+				cancelled = true;
+			} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(2))) {
+				cancelled = cure(player, target, itemMaterial);
+			} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(3))) {
+				cancelled = heal(player, target);
+			} else if (itemMaterial.equals(SNConfigHandler.priestSpellMaterials.get(4))) {
+				drainPower(player, target);
+				cancelled = true;
+			}
+			if (!event.isCancelled()) {
+				event.setCancelled(cancelled);
+			}
+		} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.priestSpellGuardianAngel)) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(snplayer.getName()
+						+ " is attempting to cast guardian angel...");
+			}
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(target.getName()
+						+ " is targetted by guardian angel.");
+			}
+			cancelled = guardianAngel(player, target);
+			if (!event.isCancelled()) {
+				event.setCancelled(cancelled);
+			}
+		} else if (itemMaterial.equals(Material.BOWL)) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(snplayer.getName()
+						+ " is attempting to donate remotely.");
+			}
+			remoteDonations(player);
 		}
 	}
 
-	public boolean banish(Player player, Player victim) {
+	public void banish(Player player, Player victim) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		SuperNPlayer snvictim = SuperNManager.get(victim);
 		if (!SupernaturalsPlugin.instance.getPvP(victim)) {
 			SuperNManager.sendMessage(snplayer, "Cannot cast in a non-PvP zone.");
-			return false;
+			return;
 		}
 		if (snplayer.getPower() > SNConfigHandler.priestPowerBanish) {
 			if (snvictim.isSuper()) {
@@ -371,13 +322,11 @@ public class PriestManager extends HumanManager {
 				} else {
 					item.setAmount(player.getItemInHand().getAmount() - 1);
 				}
-				return true;
+				return;
 			}
 			SuperNManager.sendMessage(snplayer, "Can only banish supernatural players.");
-			return false;
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to banish.");
-			return false;
 		}
 	}
 
@@ -415,12 +364,12 @@ public class PriestManager extends HumanManager {
 		}
 	}
 
-	public boolean exorcise(Player player, Player victim) {
+	public void exorcise(Player player, Player victim) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		SuperNPlayer snvictim = SuperNManager.get(victim);
 		if (!SupernaturalsPlugin.instance.getPvP(victim)) {
 			SuperNManager.sendMessage(snplayer, "Cannot cast in a non-PvP zone.");
-			return false;
+			return;
 		}
 		if (snplayer.getPower() > SNConfigHandler.priestPowerExorcise) {
 			if (snvictim.isSuper()) {
@@ -436,14 +385,11 @@ public class PriestManager extends HumanManager {
 				} else {
 					item.setAmount(player.getItemInHand().getAmount() - 1);
 				}
-				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be exorcised.");
-				return false;
 			}
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to exorcise.");
-			return false;
 		}
 	}
 
@@ -489,12 +435,12 @@ public class PriestManager extends HumanManager {
 		}
 	}
 
-	public boolean drainPower(Player player, Player victim) {
+	public void drainPower(Player player, Player victim) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		SuperNPlayer snvictim = SuperNManager.get(victim);
 		if (!SupernaturalsPlugin.instance.getPvP(victim)) {
 			SuperNManager.sendMessage(snplayer, "Cannot cast in a non-PvP zone.");
-			return false;
+			return;
 		}
 		if (snplayer.getPower() > SNConfigHandler.priestPowerDrain) {
 			if (snvictim.isSuper()) {
@@ -510,14 +456,11 @@ public class PriestManager extends HumanManager {
 				} else {
 					item.setAmount(player.getItemInHand().getAmount() - 1);
 				}
-				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be power drained.");
-				return false;
 			}
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to drain power.");
-			return false;
 		}
 	}
 
@@ -551,10 +494,9 @@ public class PriestManager extends HumanManager {
 				return true;
 			}
 			SuperNManager.sendMessage(priest, "You cannot set a Guardian Angel on a Supernatural player.");
-			return false;
 		} else {
 			SuperNManager.sendMessage(priest, "Not enough power to cast Guardian Angel.");
-			return false;
 		}
+		return false;
 	}
 }

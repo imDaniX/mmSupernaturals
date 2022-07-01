@@ -12,10 +12,10 @@ public class Location implements Serializable {
 	 */
 	private static final long serialVersionUID = 8884729998863928105L;
 
-	private double x;
-	private double y;
-	private double z;
-	private String world;
+	private final double x;
+	private final double y;
+	private final double z;
+	private final String world;
 
 	public Location(org.bukkit.Location location) {
 		x = location.getX();

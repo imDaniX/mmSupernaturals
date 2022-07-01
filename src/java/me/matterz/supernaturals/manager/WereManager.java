@@ -46,8 +46,7 @@ public class WereManager extends ClassManager {
 		super();
 	}
 
-	private String permissions2 = "supernatural.player.wolfbane";
-	private static HashMap<Wolf, SuperNPlayer> wolvesMap = new HashMap<Wolf, SuperNPlayer>();
+	private static final HashMap<Wolf, SuperNPlayer> wolvesMap = new HashMap<>();
 
 	// -------------------------------------------- //
 	// Damage Events //
@@ -74,7 +73,7 @@ public class WereManager extends ClassManager {
 					if (SNConfigHandler.debugMode) {
 						SupernaturalsPlugin.log(pDamager.getName()
 								+ " was not allowed to use "
-								+ item.getType().toString());
+								+ item.getType());
 					}
 					SuperNManager.sendMessage(snDamager, "Werewolves cannot use this weapon at night!");
 					damage = 0;
@@ -149,6 +148,7 @@ public class WereManager extends ClassManager {
 					return false;
 				}
 			} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.wolfbaneMaterial)) {
+				String permissions2 = "supernatural.player.wolfbane";
 				if (!SupernaturalsPlugin.hasPermissions(player, permissions2)) {
 					return false;
 				}
@@ -187,7 +187,7 @@ public class WereManager extends ClassManager {
 							SuperNManager.alterPower(snplayer, SNConfigHandler.werePowerFood, "Eating!");
 							if (SNConfigHandler.debugMode) {
 								SupernaturalsPlugin.log(snplayer.getName()
-										+ " ate " + itemMaterial.toString()
+										+ " ate " + itemMaterial
 										+ " to gain "
 										+ SNConfigHandler.werePowerFood
 										+ " power!");
@@ -215,7 +215,7 @@ public class WereManager extends ClassManager {
 						SuperNManager.alterPower(snplayer, SNConfigHandler.werePowerFood, "Eating!");
 						if (SNConfigHandler.debugMode) {
 							SupernaturalsPlugin.log(snplayer.getName()
-									+ " ate " + itemMaterial.toString()
+									+ " ate " + itemMaterial
 									+ " to gain "
 									+ SNConfigHandler.werePowerFood + " power!");
 						}
@@ -275,18 +275,16 @@ public class WereManager extends ClassManager {
 	// Wolfbane //
 	// -------------------------------------------- //
 
-	public boolean wolfbane(Player player) {
+	public void wolfbane(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (SNConfigHandler.wereWolfbaneRecipe.playerHasEnough(player)) {
 			SuperNManager.sendMessage(snplayer, "You create a wolfbane potion!");
 			SuperNManager.sendMessage(snplayer, SNConfigHandler.wereWolfbaneRecipe.getRecipeLine());
 			SNConfigHandler.wereWolfbaneRecipe.removeFromPlayer(player);
 			SuperNManager.cure(snplayer);
-			return true;
 		} else {
 			SuperNManager.sendMessage(snplayer, "You cannot create a Wolfbane potion without the following: ");
 			SuperNManager.sendMessage(snplayer, SNConfigHandler.wereWolfbaneRecipe.getRecipeLine());
-			return false;
 		}
 	}
 
@@ -294,12 +292,12 @@ public class WereManager extends ClassManager {
 	// Summonings //
 	// -------------------------------------------- //
 
-	public boolean summon(Player player) {
+	public void summon(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		ItemStack item = player.getItemInHand();
 		if (!SupernaturalsPlugin.instance.getSpawn(player)) {
 			SuperNManager.sendMessage(snplayer, "You cannot summon here.");
-			return false;
+			return;
 		}
 		if (SuperNManager.worldTimeIsNight(player)) {
 			if (snplayer.getPower() >= SNConfigHandler.werePowerSummonCost) {
@@ -325,18 +323,14 @@ public class WereManager extends ClassManager {
 					} else {
 						item.setAmount(player.getItemInHand().getAmount() - 1);
 					}
-					return true;
 				} else {
 					SuperNManager.sendMessage(snplayer, "You already have all the wolves you can control.");
-					return false;
 				}
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to summon.");
-				return false;
 			}
 		} else {
 			SuperNManager.sendMessage(snplayer, "Cannot use werewolf abilities during the day!");
-			return false;
 		}
 	}
 
@@ -345,13 +339,11 @@ public class WereManager extends ClassManager {
 	}
 
 	public static void removeWolf(Wolf wolf) {
-		if (wolvesMap.containsKey(wolf)) {
-			wolvesMap.remove(wolf);
-		}
+		wolvesMap.remove(wolf);
 	}
 
 	public static void removePlayer(SuperNPlayer player) {
-		List<Wolf> removeWolf = new ArrayList<Wolf>();
+		List<Wolf> removeWolf = new ArrayList<>();
 		for (Wolf wolf : wolvesMap.keySet()) {
 			if (wolvesMap.get(wolf).equals(player)) {
 				wolf.setTamed(false);

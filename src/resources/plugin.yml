@@ -1,7 +1,9 @@
 name: mmSupernaturals
 main: me.matterz.supernaturals.SupernaturalsPlugin
-version: 1.4.1
+version: '${project.version}'
 author: Matterz, mmiillkkaa, imDaniX
+api-version: 1.18
+softdepend: [WorldGuard]
 commands:
   sn:
     description: Supernatural commands

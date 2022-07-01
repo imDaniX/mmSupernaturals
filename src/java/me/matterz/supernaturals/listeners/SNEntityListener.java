@@ -33,8 +33,8 @@ import org.bukkit.event.entity.*;
 
 public class SNEntityListener implements Listener {
 
-	private SupernaturalsPlugin plugin;
-	private String worldPermission = "supernatural.world.enabled";
+	private final SupernaturalsPlugin plugin;
+	private final String worldPermission = "supernatural.world.enabled";
 
 	public SNEntityListener(SupernaturalsPlugin instance) {
 		instance.getServer().getPluginManager().registerEvents(this, instance);
@@ -47,11 +47,10 @@ public class SNEntityListener implements Listener {
 									// plugin-friends mad :D
 			return;
 		}
-		if (!(event.getEntity() instanceof Player)) {
+		if (!(event.getEntity() instanceof Player shooter)) {
 			return;
 		}
-		Player shooter = (Player) event.getEntity();
-		boolean cancel = plugin.getClassManager(shooter).shootArrow(shooter, event);
+		boolean cancel = plugin.getClassManager(shooter).shootArrow(shooter);
 		event.setCancelled(cancel);
 	}
 
@@ -61,18 +60,15 @@ public class SNEntityListener implements Listener {
 			SupernaturalsPlugin.log("Entity Explode event with "
 					+ event.getEntity().getClass().getSimpleName());
 		}
-		if (event.getEntity() instanceof Fireball) {
-			Fireball fireball = (Fireball) event.getEntity();
+		if (event.getEntity() instanceof Fireball fireball) {
 			if (fireball.getShooter() instanceof Player) {
 				if (!SupernaturalsPlugin.hasPermissions((Player) fireball.getShooter(), worldPermission)
 						&& SNConfigHandler.multiworld) {
 					return;
 				}
 				for (Entity entity : fireball.getNearbyEntities(3, 3, 3)) {
-					if (entity instanceof LivingEntity) {
-						LivingEntity lEntity = (LivingEntity) entity;
-						if (entity instanceof Player) {
-							Player player = (Player) entity;
+					if (entity instanceof LivingEntity lEntity) {
+						if (entity instanceof Player player) {
 							SuperNPlayer snplayer = SuperNManager.get(player);
 							if (snplayer.isDemon()) {
 								continue;
@@ -99,17 +95,14 @@ public class SNEntityListener implements Listener {
 		double damage = event.getDamage();
 
 		// New spells event
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) event;
+		if (event instanceof EntityDamageByEntityEvent edbeEvent) {
 			if (edbeEvent.getDamager() instanceof Player
-					&& victim instanceof Player) {
-				Player pVictim = (Player) victim;
+					&& victim instanceof Player pVictim) {
 				plugin.getClassManager((Player) edbeEvent.getDamager()).spellEvent(edbeEvent, pVictim);
 			}
 		}
 		// Player Damager Event
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) event;
+		if (event instanceof EntityDamageByEntityEvent edbeEvent) {
 			Entity damager = edbeEvent.getDamager();
 
 			if (damager instanceof Player) {
@@ -123,8 +116,7 @@ public class SNEntityListener implements Listener {
 		}
 
 		// Player Victim Event
-		if (victim instanceof Player) {
-			Player pVictim = (Player) victim;
+		if (victim instanceof Player pVictim) {
 			if (!SupernaturalsPlugin.hasPermissions(pVictim, worldPermission)
 					&& SNConfigHandler.multiworld) {
 				return;
@@ -188,9 +180,7 @@ public class SNEntityListener implements Listener {
 			return;
 		}
 
-		if (event.getEntity() == null) {
-			return;
-		}
+		event.getEntity();
 
 		if (!SupernaturalsPlugin.hasPermissions((Player) event.getTarget(), worldPermission)
 				&& SNConfigHandler.multiworld) {

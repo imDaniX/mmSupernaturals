@@ -39,8 +39,8 @@ public class SNCommand {
 	public List<String> parameters;
 
 	public SNCommand() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		permissions = "";
 		senderMustBePlayer = false;
 		senderMustBeSupernatural = false;

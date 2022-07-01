@@ -45,7 +45,6 @@ public class VampireManager extends ClassManager {
 		super();
 	}
 
-	private String permissions = "supernatural.player.preventsundamage";
 	public SupernaturalsPlugin plugin = SupernaturalsPlugin.instance;
 
 	// -------------------------------------------- //
@@ -68,23 +67,19 @@ public class VampireManager extends ClassManager {
 		} else if (event.getCause().equals(DamageCause.FALL)) {
 			event.setCancelled(true);
 			return 0;
-		} else if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) event;
+		} else if (event instanceof EntityDamageByEntityEvent edbeEvent) {
 			Entity damager = edbeEvent.getDamager();
 			if (damager instanceof Projectile) {
 				return damage;
-			} else if (damager instanceof Player) {
-				Player pDamager = (Player) damager;
+			} else if (damager instanceof Player pDamager) {
 				ItemStack item = pDamager.getItemInHand();
 
-				if (item != null) {
-					if (SNConfigHandler.woodMaterials.contains(item.getType())) {
-						damage += damage * SNConfigHandler.woodFactor;
-						SuperNManager.sendMessage(snVictim, "Vampires have a weakness to wood!");
-					} else {
-						damage -= damage
-								* snVictim.scale(1 - SNConfigHandler.vampireDamageReceivedFactor);
-					}
+				if (SNConfigHandler.woodMaterials.contains(item.getType())) {
+					damage += damage * SNConfigHandler.woodFactor;
+					SuperNManager.sendMessage(snVictim, "Vampires have a weakness to wood!");
+				} else {
+					damage -= damage
+							* snVictim.scale(1 - SNConfigHandler.vampireDamageReceivedFactor);
 				}
 			}
 		}
@@ -136,16 +131,14 @@ public class VampireManager extends ClassManager {
 
 		ItemStack item = pDamager.getItemInHand();
 
-		if (item != null) {
-			if (SNConfigHandler.vampireWeapons.contains(item.getType())) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(pDamager.getName()
-							+ " was not allowed to use "
-							+ item.getType().toString());
-				}
-				SuperNManager.sendMessage(snDamager, "Vampires cannot use this weapon!");
-				return 0;
+		if (SNConfigHandler.vampireWeapons.contains(item.getType())) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(pDamager.getName()
+						+ " was not allowed to use "
+						+ item.getType());
 			}
+			SuperNManager.sendMessage(snDamager, "Vampires cannot use this weapon!");
+			return 0;
 		}
 
 		damage += damage * snDamager.scale(SNConfigHandler.vampireDamageFactor);
@@ -166,9 +159,7 @@ public class VampireManager extends ClassManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (player.getItemInHand() == null) {
-				return false;
-			}
+			player.getItemInHand();
 
 			if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.jumpMaterial)) {
 				SuperNManager.jump(player, SNConfigHandler.jumpDeltaSpeed, true);
@@ -185,19 +176,17 @@ public class VampireManager extends ClassManager {
 			return false;
 		}
 
-		if (itemMaterial != null) {
-			if (SNConfigHandler.foodMaterials.contains(itemMaterial)) {
-				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log(snplayer.getName()
-							+ " attempted to eat " + itemMaterial.toString());
-				}
-				SuperNManager.sendMessage(snplayer, "Vampires can't eat food. You must drink blood instead.");
-				event.setCancelled(true);
-				return true;
-			} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.vampireTeleportMaterial)) {
-				setTeleport(player);
-				return true;
+		if (SNConfigHandler.foodMaterials.contains(itemMaterial)) {
+			if (SNConfigHandler.debugMode) {
+				SupernaturalsPlugin.log(snplayer.getName()
+						+ " attempted to eat " + itemMaterial);
 			}
+			SuperNManager.sendMessage(snplayer, "Vampires can't eat food. You must drink blood instead.");
+			event.setCancelled(true);
+			return true;
+		} else if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.vampireTeleportMaterial)) {
+			setTeleport(player);
+			return true;
 		}
 		return false;
 	}
@@ -266,7 +255,7 @@ public class VampireManager extends ClassManager {
 		}
 	}
 
-	public boolean teleport(Player player) {
+	public void teleport(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		ItemStack item = player.getItemInHand();
 		if (SupernaturalsPlugin.instance.getDataHandler().checkPlayer(snplayer)) {
@@ -278,14 +267,11 @@ public class VampireManager extends ClassManager {
 				} else {
 					item.setAmount(player.getItemInHand().getAmount() - 1);
 				}
-				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to teleport.");
-				return false;
 			}
 		} else {
 			SuperNManager.sendMessage(snplayer, "You have not set a teleport location yet!");
-			return false;
 		}
 	}
 
@@ -379,7 +365,6 @@ public class VampireManager extends ClassManager {
 		// If healthy
 		if (!snplayer.isVampire()) {
 			SuperNManager.sendMessage(snplayer, "It can probably cure curses, but you feel fine.");
-			return;
 		}
 
 		// Is vampire and thus can be cured...
@@ -403,14 +388,14 @@ public class VampireManager extends ClassManager {
 	// Combustion //
 	// -------------------------------------------- //
 
-	public boolean combustAdvanceTime(Player player, long milliseconds) {
+	public void combustAdvanceTime(Player player, long milliseconds) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (!standsInSunlight(player)) {
-			return false;
+			return;
 		}
 
 		if (!SNConfigHandler.vampireBurnInSunlight) {
-			return false;
+			return;
 		}
 
 		// We assume the next tick will be in milliseconds.
@@ -426,7 +411,6 @@ public class VampireManager extends ClassManager {
 
 		player.setFireTicks(ticksTillNext
 				+ SNConfigHandler.vampireCombustFireTicks);
-		return true;
 	}
 
 	public boolean standsInSunlight(Player player) {
@@ -434,25 +418,21 @@ public class VampireManager extends ClassManager {
 		Material material = player.getLocation().getBlock().getType();
 		World playerWorld = player.getWorld();
 
+		String permissions = "supernatural.player.preventsundamage";
 		if (SupernaturalsPlugin.hasPermissions(player, permissions)) {
 			return false;
 		}
 
-		if (player.getWorld().getEnvironment().equals(Environment.NETHER)
-				|| SuperNManager.worldTimeIsNight(player)
-				|| isUnderRoof(player)
-				|| material.equals(Material.WATER) || playerWorld.hasStorm()
-				|| hasHelmet(player)) {
-			return false;
-		}
-		return true;
+		return !player.getWorld().getEnvironment().equals(Environment.NETHER)
+				&& !SuperNManager.worldTimeIsNight(player)
+				&& !isUnderRoof(player)
+				&& !material.equals(Material.WATER) && !playerWorld.hasStorm()
+				&& !hasHelmet(player);
 	}
 
 	public boolean hasHelmet(Player player) {
 		if (player.getInventory().getHelmet() != null) {
-			if(player.getInventory().getHelmet().getType().toString().equalsIgnoreCase(SNConfigHandler.vampireHelmet)) {
-				return true;
-			}
+			return player.getInventory().getHelmet().getType().toString().equalsIgnoreCase(SNConfigHandler.vampireHelmet);
 		}
 		return false;
 	}
@@ -467,7 +447,6 @@ public class VampireManager extends ClassManager {
 		Block blockCurrent = player.getLocation().getBlock();
 
 		if (player.getLocation().getY() >= 254) {
-			retVal = false;
 		} else {
 			// blockCurrent = blockCurrent.getFace(BlockFace.UP, 1); //What was
 			// the point?

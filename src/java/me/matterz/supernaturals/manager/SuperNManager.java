@@ -40,10 +40,10 @@ import java.util.logging.Level;
 public class SuperNManager {
 
 	public static SupernaturalsPlugin plugin;
-	public String worldPermission = "supernatural.world.enabled";
-	public static String infPowerPermissions = "supernatural.admin.infinitepower";
+	public static final String WORLD_PERMISSION = "supernatural.world.enabled";
+	public static final String INFINITE_POWER_PERMISSION = "supernatural.admin.infinitepower";
 
-	public static List<SuperNPlayer> supernaturals = new ArrayList<SuperNPlayer>();
+	public static List<SuperNPlayer> supernaturals = new ArrayList<>();
 	public transient int taskCounter = 0;
 	public static int timer;
 
@@ -89,7 +89,7 @@ public class SuperNManager {
 	}
 
 	public static Set<SuperNPlayer> findAllOnline() {
-		Set<SuperNPlayer> snplayers = new HashSet<SuperNPlayer>();
+		Set<SuperNPlayer> snplayers = new HashSet<>();
 		for (Player player : SupernaturalsPlugin.instance.getServer().getOnlinePlayers()) {
 			snplayers.add(get(player));
 		}
@@ -117,7 +117,7 @@ public class SuperNManager {
 		snplayer.setOldPower(snplayer.getPower());
 
 		snplayer.setType(type);
-		if (SupernaturalsPlugin.hasPermissions(plugin.getServer().getPlayer(snplayer.getName()), infPowerPermissions)) {
+		if (SupernaturalsPlugin.hasPermissions(plugin.getServer().getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
 			snplayer.setPower(10000);
 		} else {
 			snplayer.setPower(powerLevel);
@@ -132,10 +132,6 @@ public class SuperNManager {
 
 		updateName(snplayer);
 		HunterManager.updateBounties();
-		// if(snplayer.getType().equalsIgnoreCase("hunter"))
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(true);
-		// else
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(false);
 		if (snplayer.getOldType().equals("werewolf")) {
 			WereManager.removePlayer(snplayer);
 		}
@@ -160,10 +156,6 @@ public class SuperNManager {
 
 		updateName(snplayer);
 		HunterManager.updateBounties();
-		// if(snplayer.getType().equalsIgnoreCase("hunter"))
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(true);
-		// else
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(false);
 		if (snplayer.getOldType().equals("werewolf")) {
 			WereManager.removePlayer(snplayer);
 		}
@@ -190,10 +182,6 @@ public class SuperNManager {
 
 		updateName(snplayer);
 		HunterManager.updateBounties();
-		// if(snplayer.getType().equalsIgnoreCase("hunter"))
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(true);
-		// else
-		// SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()).setSneaking(false);
 		if (snplayer.getOldType().equals("werewolf")) {
 			WereManager.removePlayer(snplayer);
 		}
@@ -214,7 +202,7 @@ public class SuperNManager {
 	// -------------------------------------------- //
 
 	public static void alterPower(SuperNPlayer snplayer, double delta) {
-		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), infPowerPermissions)) {
+		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
 			if (delta < 0) {
 				return;
 			}
@@ -223,7 +211,7 @@ public class SuperNManager {
 	}
 
 	public static void alterPower(SuperNPlayer snplayer, double delta, String reason) {
-		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), infPowerPermissions)) {
+		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
 			if (delta < 0) {
 				return;
 			}
@@ -238,13 +226,13 @@ public class SuperNManager {
 	// Movement //
 	// -------------------------------------------- //
 
-	public static boolean jump(Player player, double deltaSpeed, boolean upOnly) {
+	public static void jump(Player player, double deltaSpeed, boolean upOnly) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
 
 		if (upOnly) {
 			if (snplayer.getPower() - SNConfigHandler.jumpBloodCost <= 0) {
 				SuperNManager.sendMessage(snplayer, "Not enough Power to jump.");
-				return false;
+				return;
 			} else {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.jumpBloodCost, "SuperJump!");
 				if (SNConfigHandler.debugMode) {
@@ -254,7 +242,7 @@ public class SuperNManager {
 		} else {
 			if (snplayer.getPower() - SNConfigHandler.dashBloodCost <= 0) {
 				SuperNManager.sendMessage(snplayer, "Not enough Power to dash.");
-				return false;
+				return;
 			} else {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.dashBloodCost, "Dash!");
 				if (SNConfigHandler.debugMode) {
@@ -274,7 +262,6 @@ public class SuperNManager {
 		vjadd.multiply(deltaSpeed);
 
 		player.setVelocity(player.getVelocity().add(vjadd));
-		return true;
 	}
 
 	// -------------------------------------------- //
@@ -372,7 +359,6 @@ public class SuperNManager {
 		}
 
 		double deltaSeconds = milliseconds / 1000D;
-		;
 		double deltaHeal;
 
 		if (snplayer.isVampire()) {
@@ -425,8 +411,7 @@ public class SuperNManager {
 		List<Entity> entities = player.getNearbyEntities(21, 21, 21);
 		for (Block block : blocks) {
 			for (Entity entity : entities) {
-				if (entity instanceof Player) {
-					Player victim = (Player) entity;
+				if (entity instanceof Player victim) {
 					Location location = victim.getLocation();
 					Location feetLocation = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ());
 					Location groundLocation = new Location(location.getWorld(), location.getX(), location.getY() - 2, location.getZ());
@@ -505,11 +490,7 @@ public class SuperNManager {
 	public static boolean worldTimeIsNight(Player player) {
 		long time = player.getWorld().getTime() % 24000;
 
-		if (time < 0 || time > 12400) {
-			return true;
-		}
-
-		return false;
+		return time < 0 || time > 12400;
 	}
 
 	public static void startTimer() {
@@ -530,7 +511,7 @@ public class SuperNManager {
 			return;
 		}
 
-		if (!SupernaturalsPlugin.hasPermissions(player, worldPermission)
+		if (!SupernaturalsPlugin.hasPermissions(player, WORLD_PERMISSION)
 				&& SNConfigHandler.multiworld) {
 			return;
 		}

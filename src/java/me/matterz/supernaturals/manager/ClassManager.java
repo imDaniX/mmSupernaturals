@@ -24,7 +24,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,7 +36,7 @@ public abstract class ClassManager {
 		return damage;
 	}
 
-	public boolean shootArrow(Player shooter, EntityShootBowEvent event) {
+	public boolean shootArrow(Player shooter) {
 		return false;
 	}
 

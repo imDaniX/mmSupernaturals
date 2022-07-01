@@ -29,8 +29,8 @@ import java.util.ArrayList;
 public class SNCommandReset extends SNCommand {
 
 	public SNCommandReset() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		optionalParameters.add("playername");
 		permissions = "supernatural.admin.command.reset";
@@ -40,7 +40,7 @@ public class SNCommandReset extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player senderPlayer)) {
 			if (parameters.isEmpty()) {
 				this.sendMessage("Missing player!");
 			} else {
@@ -59,7 +59,6 @@ public class SNCommandReset extends SNCommand {
 			return;
 		}
 
-		Player senderPlayer = (Player) sender;
 		if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 			this.sendMessage("You do not have permissions to use this command.");
 			return;

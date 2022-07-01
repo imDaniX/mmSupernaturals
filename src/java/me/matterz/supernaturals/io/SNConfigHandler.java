@@ -167,30 +167,30 @@ public class SNConfigHandler {
 	public static String hunterHallMessage;
 	public static Location priestChurchLocation;
 	public static Location priestBanishLocation;
-	public static List<String> supernaturalTypes = new ArrayList<String>();
-	public static List<String> hunterArrowTypes = new ArrayList<String>();
+	public static List<String> supernaturalTypes = new ArrayList<>();
+	public static List<String> hunterArrowTypes = new ArrayList<>();
 
-	public static List<Material> woodMaterials = new ArrayList<Material>();
-	public static List<EntityType> vampireTruce = new ArrayList<EntityType>();
-	public static List<Material> foodMaterials = new ArrayList<Material>();
-	public static List<Material> ghoulWeapons = new ArrayList<Material>();
-	public static List<Material> demonWeapons = new ArrayList<Material>();
-	public static List<Material> priestWeapons = new ArrayList<Material>();
-	public static List<Material> vampireWeapons = new ArrayList<Material>();
-	public static List<Material> hunterWeapons = new ArrayList<Material>();
-	public static List<Material> wereWeapons = new ArrayList<Material>();
-	public static List<Material> ghoulWeaponImmunity = new ArrayList<Material>();
-	public static List<EntityType> ghoulTruce = new ArrayList<EntityType>();
-	public static List<Material> priestSpellMaterials = new ArrayList<Material>();
-	public static HashMap<Material, Integer> priestDonationMap = new HashMap<Material, Integer>();
-	public static List<Material> burnableBlocks = new ArrayList<Material>();
-	public static List<Material> hunterArmor = new ArrayList<Material>();
-	public static List<Material> ghoulArmor = new ArrayList<Material>();
-	public static List<Material> demonArmor = new ArrayList<Material>();
-	public static List<Material> priestArmor = new ArrayList<Material>();
-	public static List<Material> vampireArmor = new ArrayList<Material>();
-	public static List<Material> wereArmor = new ArrayList<Material>();
-	public static List<Material> enderWeapons = new ArrayList<Material>();
+	public static final List<Material> woodMaterials = new ArrayList<>();
+	public static final List<EntityType> vampireTruce = new ArrayList<>();
+	public static final List<Material> foodMaterials = new ArrayList<>();
+	public static final List<Material> ghoulWeapons = new ArrayList<>();
+	public static final List<Material> demonWeapons = new ArrayList<>();
+	public static final List<Material> priestWeapons = new ArrayList<>();
+	public static final List<Material> vampireWeapons = new ArrayList<>();
+	public static final List<Material> hunterWeapons = new ArrayList<>();
+	public static final List<Material> wereWeapons = new ArrayList<>();
+	public static final List<Material> ghoulWeaponImmunity = new ArrayList<>();
+	public static final List<EntityType> ghoulTruce = new ArrayList<>();
+	public static final List<Material> priestSpellMaterials = new ArrayList<>();
+	public static final HashMap<Material, Integer> priestDonationMap = new HashMap<>();
+	public static final List<Material> burnableBlocks = new ArrayList<>();
+	public static final List<Material> hunterArmor = new ArrayList<>();
+	public static final List<Material> ghoulArmor = new ArrayList<>();
+	public static final List<Material> demonArmor = new ArrayList<>();
+	public static final List<Material> priestArmor = new ArrayList<>();
+	public static final List<Material> vampireArmor = new ArrayList<>();
+	public static final List<Material> wereArmor = new ArrayList<>();
+	public static final List<Material> enderWeapons = new ArrayList<>();
 
 	public static String priestChurchWorld;
 	public static int priestChurchLocationX;
@@ -201,44 +201,44 @@ public class SNConfigHandler {
 	public static int priestBanishLocationY;
 	public static int priestBanishLocationZ;
 
-	private static List<String> ghoulWeaponsString = new ArrayList<String>();
-	private static List<String> demonWeaponsString = new ArrayList<String>();
-	private static List<String> priestWeaponsString = new ArrayList<String>();
-	private static List<String> hunterWeaponsString = new ArrayList<String>();
-	private static List<String> vampireWeaponsString = new ArrayList<String>();
-	private static List<String> wereWeaponsString = new ArrayList<String>();
-	private static List<String> ghoulWeaponImmunityString = new ArrayList<String>();
-	private static List<String> enderWeaponsString = new ArrayList<String>();
-	private static List<String> woodMaterialsString = new ArrayList<String>();
-	private static List<String> vampireTruceString = new ArrayList<String>();
-	private static List<String> foodMaterialsString = new ArrayList<String>();
-	private static List<String> ghoulTruceString = new ArrayList<String>();
-	private static List<String> vampireAltarInfectMaterialsString = new ArrayList<String>();
-	private static List<String> vampireAltarCureMaterialsString = new ArrayList<String>();
-	private static List<Integer> vampireAltarCureQuantities = new ArrayList<Integer>();
-	private static List<Integer> vampireAltarInfectQuantities = new ArrayList<Integer>();
-	private static List<String> priestMaterialsString = new ArrayList<String>();
-	private static List<String> priestAltarMaterialsString = new ArrayList<String>();
-	private static List<Integer> priestAltarQuantities = new ArrayList<Integer>();
-	private static List<String> priestDonationMaterialsString = new ArrayList<String>();
-	private static List<String> wereWolfbaneMaterialsString = new ArrayList<String>();
-	private static List<Integer> wereWolfbaneQuantities = new ArrayList<Integer>();
-	private static List<Integer> priestDonationRewards = new ArrayList<Integer>();
-	private static List<String> burnableBlocksString = new ArrayList<String>();
-	private static List<String> hunterArmorString = new ArrayList<String>();
-	private static List<String> ghoulArmorString = new ArrayList<String>();
-	private static List<String> demonArmorString = new ArrayList<String>();
-	private static List<String> priestArmorString = new ArrayList<String>();
-	private static List<String> vampireArmorString = new ArrayList<String>();
-	private static List<String> wereArmorString = new ArrayList<String>();
+	private static List<String> ghoulWeaponsString = new ArrayList<>();
+	private static List<String> demonWeaponsString = new ArrayList<>();
+	private static List<String> priestWeaponsString = new ArrayList<>();
+	private static List<String> hunterWeaponsString = new ArrayList<>();
+	private static List<String> vampireWeaponsString = new ArrayList<>();
+	private static List<String> wereWeaponsString = new ArrayList<>();
+	private static List<String> ghoulWeaponImmunityString = new ArrayList<>();
+	private static List<String> enderWeaponsString = new ArrayList<>();
+	private static List<String> woodMaterialsString = new ArrayList<>();
+	private static List<String> vampireTruceString = new ArrayList<>();
+	private static List<String> foodMaterialsString = new ArrayList<>();
+	private static List<String> ghoulTruceString = new ArrayList<>();
+	private static List<String> vampireAltarInfectMaterialsString = new ArrayList<>();
+	private static List<String> vampireAltarCureMaterialsString = new ArrayList<>();
+	private static List<Integer> vampireAltarCureQuantities = new ArrayList<>();
+	private static List<Integer> vampireAltarInfectQuantities = new ArrayList<>();
+	private static List<String> priestMaterialsString = new ArrayList<>();
+	private static List<String> priestAltarMaterialsString = new ArrayList<>();
+	private static List<Integer> priestAltarQuantities = new ArrayList<>();
+	private static List<String> priestDonationMaterialsString = new ArrayList<>();
+	private static List<String> wereWolfbaneMaterialsString = new ArrayList<>();
+	private static List<Integer> wereWolfbaneQuantities = new ArrayList<>();
+	private static List<Integer> priestDonationRewards = new ArrayList<>();
+	private static final List<String> burnableBlocksString = new ArrayList<>();
+	private static List<String> hunterArmorString = new ArrayList<>();
+	private static List<String> ghoulArmorString = new ArrayList<>();
+	private static List<String> demonArmorString = new ArrayList<>();
+	private static List<String> priestArmorString = new ArrayList<>();
+	private static List<String> vampireArmorString = new ArrayList<>();
+	private static List<String> wereArmorString = new ArrayList<>();
 
-	public static Map<Material, Double> materialOpacity = new HashMap<Material, Double>();
-	public static HashSet<Material> transparent = new HashSet<>();
+	public static final Map<Material, Double> materialOpacity = new HashMap<>();
+	public static final HashSet<Material> transparent = new HashSet<>();
 
-	public static Recipes vampireAltarInfectRecipe = new Recipes();
-	public static Recipes vampireAltarCureRecipe = new Recipes();
-	public static Recipes priestAltarRecipe = new Recipes();
-	public static Recipes wereWolfbaneRecipe = new Recipes();
+	public static final Recipes vampireAltarInfectRecipe = new Recipes();
+	public static final Recipes vampireAltarCureRecipe = new Recipes();
+	public static final Recipes priestAltarRecipe = new Recipes();
+	public static final Recipes wereWolfbaneRecipe = new Recipes();
 
 	static {
 		materialOpacity.put(Material.AIR, 0D);
@@ -281,7 +281,7 @@ public class SNConfigHandler {
 
 	public static void loadValues(Configuration config) {
 		File configFile = new File(plugin.getDataFolder(), "config.yml");
-		if (SNVersionHandler.readVersion() != plugin.getDescription().getVersion() && configFile.exists()) {
+		if (!SNVersionHandler.readVersion().equals(plugin.getDescription().getVersion()) && configFile.exists()) {
 			saveConfig();
 			SNVersionHandler.writeVersion();
 		}
@@ -295,7 +295,7 @@ public class SNConfigHandler {
 			config.set("Supernatural.Truce.BreakTime", 120000);
 			config.set("Supernatural.SpreadChance", 0.35);
 
-			config.set("Vampire.Materials.Jump", "RED_ROSE");
+			config.set("Vampire.Materials.Jump", "POPPY");
 
 			config.set("Vampire.Power.Start", 10000);
 			config.set("Vampire.Kill.SpreadCurse", true);
@@ -316,9 +316,9 @@ public class SNConfigHandler {
 			config.set("Vampire.Power.HealingCost", 60);
 			config.set("Vampire.Power.DrowningCost", 90);
 			config.set("Vampire.Power.TeleportCost", 9000);
-			config.set("Vampire.TeleportMarker.Material", "RED_ROSE");
+			config.set("Vampire.TeleportMarker.Material", "POPPY");
 			config.set("Vampire.Spell.Material", "BOOK");
-			config.set("Vampire.Burn.HelmetProtection", "GOLD_HELMET");
+			config.set("Vampire.Burn.HelmetProtection", "GOLDEN_HELMET");
 			config.set("Vampire.GainHunger.Player", 3);
 			config.set("Vampire.GainHunger.Mob", 2);
 
@@ -698,15 +698,15 @@ public class SNConfigHandler {
 				ghoulTruceString.add("CREEPER");
 				ghoulTruceString.add("SKELETON");
 				ghoulTruceString.add("ZOMBIE");
-				ghoulTruceString.add("PIG_ZOMBIE");
+				ghoulTruceString.add("ZOMBIFIED_PIGLIN");
 				ghoulTruceString.add("GIANT");
 				ghoulTruceString.add("ENDERMAN");
 				config.set("Ghoul.Truce.Creatures", ghoulTruceString);
 			}
 
 			if (wereWolfbaneMaterialsString.size() == 0) {
-				wereWolfbaneMaterialsString.add("YELLOW_FLOWER");
-				wereWolfbaneMaterialsString.add("RED_ROSE");
+				wereWolfbaneMaterialsString.add("DANDELION");
+				wereWolfbaneMaterialsString.add("POPPY");
 				wereWolfbaneMaterialsString.add("RED_MUSHROOM");
 				wereWolfbaneMaterialsString.add("BROWN_MUSHROOM");
 				wereWolfbaneMaterialsString.add("BOWL");
@@ -741,10 +741,10 @@ public class SNConfigHandler {
 				ghoulArmorString.add("IRON_CHESTPLATE");
 				ghoulArmorString.add("IRON_LEGGINGS");
 				ghoulArmorString.add("IRON_BOOTS");
-				ghoulArmorString.add("GOLD_HELMET");
-				ghoulArmorString.add("GOLD_CHESTPLATE");
-				ghoulArmorString.add("GOLD_LEGGINGS");
-				ghoulArmorString.add("GOLD_BOOTS");
+				ghoulArmorString.add("GOLDEN_HELMET");
+				ghoulArmorString.add("GOLDEN_CHESTPLATE");
+				ghoulArmorString.add("GOLDEN_LEGGINGS");
+				ghoulArmorString.add("GOLDEN_BOOTS");
 				ghoulArmorString.add("DIAMOND_HELMET");
 				ghoulArmorString.add("DIAMOND_CHESTPLATE");
 				ghoulArmorString.add("DIAMOND_LEGGINGS");
@@ -776,10 +776,10 @@ public class SNConfigHandler {
 				vampireArmorString.add("IRON_CHESTPLATE");
 				vampireArmorString.add("IRON_LEGGINGS");
 				vampireArmorString.add("IRON_BOOTS");
-				vampireArmorString.add("GOLD_HELMET");
-				vampireArmorString.add("GOLD_CHESTPLATE");
-				vampireArmorString.add("GOLD_LEGGINGS");
-				vampireArmorString.add("GOLD_BOOTS");
+				vampireArmorString.add("GOLDEN_HELMET");
+				vampireArmorString.add("GOLDEN_CHESTPLATE");
+				vampireArmorString.add("GOLDEN_LEGGINGS");
+				vampireArmorString.add("GOLDEN_BOOTS");
 				vampireArmorString.add("DIAMOND_HELMET");
 				vampireArmorString.add("DIAMOND_CHESTPLATE");
 				vampireArmorString.add("DIAMOND_LEGGINGS");
@@ -801,10 +801,10 @@ public class SNConfigHandler {
 				wereArmorString.add("IRON_CHESTPLATE");
 				wereArmorString.add("IRON_LEGGINGS");
 				wereArmorString.add("IRON_BOOTS");
-				wereArmorString.add("GOLD_HELMET");
-				wereArmorString.add("GOLD_CHESTPLATE");
-				wereArmorString.add("GOLD_LEGGINGS");
-				wereArmorString.add("GOLD_BOOTS");
+				wereArmorString.add("GOLDEN_HELMET");
+				wereArmorString.add("GOLDEN_CHESTPLATE");
+				wereArmorString.add("GOLDEN_LEGGINGS");
+				wereArmorString.add("GOLDEN_BOOTS");
 				wereArmorString.add("DIAMOND_HELMET");
 				wereArmorString.add("DIAMOND_CHESTPLATE");
 				wereArmorString.add("DIAMOND_LEGGINGS");
@@ -841,7 +841,7 @@ public class SNConfigHandler {
 		woodMaterialsString = config.getStringList("Material.Wooden");
 		foodMaterialsString = config.getStringList("Material.Food");
 
-		jumpMaterial = config.getString("Vampire.Materials.Jump", "RED_ROSE");
+		jumpMaterial = config.getString("Vampire.Materials.Jump", "POPPY");
 
 		vampirePowerStart = config.getInt("Vampire.Power.Start", 10000);
 		vampireKillSpreadCurse = config.getBoolean("Vampire.Kill.SpreadCurse", true);
@@ -862,10 +862,10 @@ public class SNConfigHandler {
 		vampireHealthCost = config.getDouble("Vampire.Power.HealingCost", 60);
 		vampireDrowningCost = config.getInt("Vampire.Power.DrowningCost", 90);
 		vampireTeleportCost = config.getInt("Vampire.Power.TeleportCost", 9000);
-		vampireTeleportMaterial = config.getString("Vampire.TeleportMarker.Material", "RED_ROSE");
+		vampireTeleportMaterial = config.getString("Vampire.TeleportMarker.Material", "POPPY");
 		vampireTruceString = config.getStringList("Vampire.Truce.Creatures");
 		vampireMaterial = config.getString("Vampire.Spell.Material", "BOOK");
-		vampireHelmet = config.getString("Vampire.Burn.HelmetProtection", "GOLD_HELMET");
+		vampireHelmet = config.getString("Vampire.Burn.HelmetProtection", "GOLDEN_HELMET");
 		vampireWeaponsString = config.getStringList("Vampire.Weapon.Restrictions");
 		vampireArmorString = config.getStringList("Vampire.Armor");
 		vampireHungerRegainPlayer = config.getInt("Vampire.GainHunger.Player");
@@ -1027,9 +1027,7 @@ public class SNConfigHandler {
 
 		for (String creature : vampireTruceString) {
 			EntityType cType = EntityType.valueOf(creature);
-			if (cType != null) {
-				vampireTruce.add(cType);
-			}
+			vampireTruce.add(cType);
 		}
 
 		for (String material : priestMaterialsString) {
@@ -1038,9 +1036,7 @@ public class SNConfigHandler {
 
 		for (String creature : ghoulTruceString) {
 			EntityType cType = EntityType.valueOf(creature);
-			if (cType != null) {
-				ghoulTruce.add(cType);
-			}
+			ghoulTruce.add(cType);
 		}
 
 		for (String weapon : ghoulWeaponsString) {

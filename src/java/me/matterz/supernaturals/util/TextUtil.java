@@ -21,36 +21,18 @@ package me.matterz.supernaturals.util;
 
 import org.bukkit.Material;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TextUtil {
-	public static String repeat(String s, int times) {
-		if (times <= 0) {
-			return "";
-		} else {
-			return s + repeat(s, times - 1);
-		}
-	}
-
-	public static ArrayList<String> split(String str) {
-		return new ArrayList<String>(Arrays.asList(str.trim().split("\\s+")));
-	}
-
 	public static String implode(List<String> list, String glue) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		for (int i = 0; i < list.size(); i++) {
 			if (i != 0) {
-				ret += glue;
+				ret.append(glue);
 			}
-			ret += list.get(i);
+			ret.append(list.get(i));
 		}
-		return ret;
-	}
-
-	public static String implode(List<String> list) {
-		return implode(list, " ");
+		return ret.toString();
 	}
 
 	public static String getMaterialName(Material material) {
@@ -58,9 +40,5 @@ public class TextUtil {
 		ret = ret.replace('_', ' ');
 		ret = ret.toLowerCase();
 		return ret;
-	}
-
-	public static String upperCaseFirst(String string) {
-		return string.substring(0, 1).toUpperCase() + string.substring(1);
 	}
 }

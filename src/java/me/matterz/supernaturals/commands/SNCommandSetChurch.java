@@ -28,8 +28,8 @@ import java.util.ArrayList;
 public class SNCommandSetChurch extends SNCommand {
 	public SNCommandSetChurch() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = true;
 		senderMustBeSupernatural = true;
 		permissions = "supernatural.admin.command.setchurch";

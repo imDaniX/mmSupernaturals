@@ -33,8 +33,8 @@ import java.util.List;
 public class SNCommandList extends SNCommand {
 
 	public SNCommandList() {
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		permissions = "supernatural.command.list";
 		helpNameAndParams = "list";
@@ -43,15 +43,15 @@ public class SNCommandList extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
-			List<String> vampires = new ArrayList<String>();
-			List<String> werewolves = new ArrayList<String>();
-			List<String> ghouls = new ArrayList<String>();
-			List<String> priests = new ArrayList<String>();
-			List<String> hunters = new ArrayList<String>();
-			List<String> demons = new ArrayList<String>();
-			List<String> enderborns = new ArrayList<String>();
-			List<String> angels = new ArrayList<String>();
+		if (!(sender instanceof Player senderPlayer)) {
+			List<String> vampires = new ArrayList<>();
+			List<String> werewolves = new ArrayList<>();
+			List<String> ghouls = new ArrayList<>();
+			List<String> priests = new ArrayList<>();
+			List<String> hunters = new ArrayList<>();
+			List<String> demons = new ArrayList<>();
+			List<String> enderborns = new ArrayList<>();
+			List<String> angels = new ArrayList<>();
 
 			for (SuperNPlayer snplayer : SuperNManager.findAllOnline()) {
 				if (snplayer.isVampire()) {
@@ -74,8 +74,8 @@ public class SNCommandList extends SNCommand {
 			}
 
 			// Create Messages
-			List<String> messages = new ArrayList<String>();
-			List<String> messagesSpanish = new ArrayList<String>();
+			List<String> messages = new ArrayList<>();
+			List<String> messagesSpanish = new ArrayList<>();
 			messages.add("*** " + ChatColor.WHITE
 					+ "Online Supernatural Players " + ChatColor.RED + "***");
 			messages.add("Vampires: " + ChatColor.WHITE
@@ -117,7 +117,6 @@ public class SNCommandList extends SNCommand {
 			}
 			return;
 		}
-		Player senderPlayer = (Player) sender;
 		if (!SupernaturalsPlugin.hasPermissions(senderPlayer, permissions)) {
 			if (!SNConfigHandler.spanish) {
 				this.sendMessage("You do not have permissions to use this command.");
@@ -127,14 +126,14 @@ public class SNCommandList extends SNCommand {
 			return;
 		}
 
-		List<String> vampires = new ArrayList<String>();
-		List<String> werewolves = new ArrayList<String>();
-		List<String> ghouls = new ArrayList<String>();
-		List<String> priests = new ArrayList<String>();
-		List<String> hunters = new ArrayList<String>();
-		List<String> demons = new ArrayList<String>();
-		List<String> enderborns = new ArrayList<String>();
-		List<String> angels = new ArrayList<String>();
+		List<String> vampires = new ArrayList<>();
+		List<String> werewolves = new ArrayList<>();
+		List<String> ghouls = new ArrayList<>();
+		List<String> priests = new ArrayList<>();
+		List<String> hunters = new ArrayList<>();
+		List<String> demons = new ArrayList<>();
+		List<String> enderborns = new ArrayList<>();
+		List<String> angels = new ArrayList<>();
 
 		for (SuperNPlayer snplayer : SuperNManager.findAllOnline()) {
 			if (snplayer.isVampire()) {
@@ -157,8 +156,8 @@ public class SNCommandList extends SNCommand {
 		}
 
 		// Create Messages
-		List<String> messages = new ArrayList<String>();
-		List<String> messagesSpanish = new ArrayList<String>();
+		List<String> messages = new ArrayList<>();
+		List<String> messagesSpanish = new ArrayList<>();
 		messages.add("*** " + ChatColor.WHITE + "Online Supernatural Players "
 				+ ChatColor.RED + "***");
 		messages.add("Vampires: " + ChatColor.WHITE

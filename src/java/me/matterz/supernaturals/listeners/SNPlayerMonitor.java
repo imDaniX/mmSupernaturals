@@ -35,20 +35,13 @@ import org.bukkit.event.player.PlayerPortalEvent;
 
 public class SNPlayerMonitor implements Listener {
 
-	private SupernaturalsPlugin plugin;
-	private String worldPermission = "supernatural.world.enabled";
+	private final SupernaturalsPlugin plugin;
+	private final String worldPermission = "supernatural.world.enabled";
 
 	public SNPlayerMonitor(SupernaturalsPlugin instance) {
 		instance.getServer().getPluginManager().registerEvents(this, instance);
 		plugin = instance;
 	}
-
-	// @Override
-	// public void onPlayerRespawn(PlayerRespawnEvent event){
-	// if(SupernaturalManager.get(event.getPlayer()).isHunter()){
-	// event.getPlayer().setSneaking(true);
-	// }
-	// }
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerPortal(PlayerPortalEvent event) {

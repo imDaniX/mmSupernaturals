@@ -28,12 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SNCommandAdmin extends SNCommand {
-	private static List<String> adminHelpMessages = new ArrayList<String>();
+	private static final List<String> adminHelpMessages = new ArrayList<>();
 
 	public SNCommandAdmin() {
 		super();
-		requiredParameters = new ArrayList<String>();
-		optionalParameters = new ArrayList<String>();
+		requiredParameters = new ArrayList<>();
+		optionalParameters = new ArrayList<>();
 		senderMustBePlayer = false;
 		senderMustBeSupernatural = false;
 		permissions = "supernatural.admin.command.adminhelp";
@@ -67,11 +67,10 @@ public class SNCommandAdmin extends SNCommand {
 
 	@Override
 	public void perform() {
-		if (!(sender instanceof Player)) {
+		if (!(sender instanceof Player player)) {
 			this.sendMessage(adminHelpMessages);
 			return;
 		}
-		Player player = (Player) sender;
 		if (SupernaturalsPlugin.hasPermissions(player, permissions)) {
 			this.sendMessage(adminHelpMessages);
 		} else {

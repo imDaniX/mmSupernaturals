@@ -19,7 +19,7 @@ public class SNWhitelistHandler {
 															// access :D
 	public static File whitelistYamlFile = null;
 	public static SupernaturalsPlugin plugin;
-	public static List<String> playersInWhitelist = new ArrayList<String>();
+	public static List<String> playersInWhitelist = new ArrayList<>();
 
 	public SNWhitelistHandler(SupernaturalsPlugin instance) {
 		SNWhitelistHandler.plugin = instance;

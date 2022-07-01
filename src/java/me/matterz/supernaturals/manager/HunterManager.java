@@ -27,6 +27,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -39,7 +41,6 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.material.Door;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -364,28 +365,17 @@ public class HunterManager extends HumanManager {
 		boolean open = false;
 
 		final Location loc = block.getLocation();
-		Location newLoc;
-		Block newBlock;
 
 		if (snplayer.isHuman()) {
 			open = join(snplayer);
 		}
 
 		if (snplayer.isHunter() || snplayer.isHuman() && open) {
-			if (door.isTopHalf()) {
-				newLoc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-				newBlock = newLoc.getBlock();
-				block.setTypeIdAndData(71, (byte) (block.getData() + 4), false);
-				newBlock.setTypeIdAndData(71, (byte) (newBlock.getData() + 4), false);
-			} else {
-				newLoc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
-				newBlock = newLoc.getBlock();
-				block.setTypeIdAndData(71, (byte) (block.getData() + 4), false);
-				newBlock.setTypeIdAndData(71, (byte) (newBlock.getData() + 4), false);
-			}
+			door.setOpen(!door.isOpen());
+			block.setBlockData(door);
 
 			addDoorLocation(loc);
-			addDoorLocation(newLoc);
+			addDoorLocation(door.getHalf() == Bisected.Half.TOP ? loc.clone().subtract(0, 1, 0) : loc.clone().add(0, 1, 0));
 
 			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, new Runnable() {
 				@Override
@@ -404,28 +394,16 @@ public class HunterManager extends HumanManager {
 
 	private void closeDoor(Location loc) {
 		Block block = loc.getBlock();
-		Door door = (Door) block.getState().getData();
+		Door door = (Door) block.getBlockData();
 		if (!door.isOpen()) {
 			return;
 		}
 
-		Location newLoc;
-		Block newBlock;
-
-		if (door.isTopHalf()) {
-			newLoc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-			newBlock = newLoc.getBlock();
-			block.setTypeIdAndData(71, (byte) (block.getData() - 4), false);
-			newBlock.setTypeIdAndData(71, (byte) (newBlock.getData() - 4), false);
-		} else {
-			newLoc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
-			newBlock = newLoc.getBlock();
-			block.setTypeIdAndData(71, (byte) (block.getData() - 4), false);
-			newBlock.setTypeIdAndData(71, (byte) (newBlock.getData() - 4), false);
-		}
+		door.setOpen(!door.isOpen());
+		block.setBlockData(door);
 
 		removeDoorLocation(loc);
-		removeDoorLocation(newLoc);
+		removeDoorLocation(door.getHalf() == Bisected.Half.TOP ? loc.clone().subtract(0, 1, 0) : loc.clone().add(0, 1, 0));
 	}
 
 	// -------------------------------------------- //

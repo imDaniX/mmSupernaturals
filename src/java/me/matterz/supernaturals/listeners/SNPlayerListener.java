@@ -29,6 +29,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,7 +38,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Door;
 
 public class SNPlayerListener implements Listener {
 
@@ -106,7 +106,7 @@ public class SNPlayerListener implements Listener {
 				return;
 			}
 
-			if (block.getType().equals(Material.IRON_DOOR_BLOCK)) {
+			if (block.getType().equals(Material.IRON_DOOR)) {
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(snplayer.getName()
 							+ " activated an Iron Door.");
@@ -116,8 +116,8 @@ public class SNPlayerListener implements Listener {
 						for (int z = blockLoc.getBlockZ() - 2; z < blockLoc.getBlockZ() + 3; z++) {
 							Location newLoc = new Location(block.getWorld(), x, y, z);
 							Block newBlock = newLoc.getBlock();
-							if (newBlock.getType().equals(Material.SIGN)
-									|| newBlock.getType().equals(Material.WALL_SIGN)) {
+							if (newBlock.getType().equals(Material.OAK_SIGN) // TODO Signs
+									|| newBlock.getType().equals(Material.OAK_WALL_SIGN)) {
 								if (SNConfigHandler.debugMode) {
 									SupernaturalsPlugin.log(snplayer.getName()
 											+ " found a sign.");
@@ -137,7 +137,7 @@ public class SNPlayerListener implements Listener {
 											event.setCancelled(true);
 											return;
 										}
-										Door door = (Door) block.getState().getData();
+										Door door = (Door) block.getBlockData();
 										boolean open = plugin.getHunterManager().doorEvent(player, block, door);
 										event.setCancelled(open);
 										return;

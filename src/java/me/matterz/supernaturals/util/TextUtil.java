@@ -19,11 +19,11 @@
 
 package me.matterz.supernaturals.util;
 
+import org.bukkit.Material;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.Material;
 
 public class TextUtil {
 	public static String repeat(String s, int times) {

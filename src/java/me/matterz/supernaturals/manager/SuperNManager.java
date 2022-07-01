@@ -365,7 +365,7 @@ public class SuperNManager {
 		}
 
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		int currentHealth = player.getHealth();
+		double currentHealth = player.getHealth();
 
 		if (currentHealth == 20) {
 			return;
@@ -401,7 +401,7 @@ public class SuperNManager {
 		}
 
 		int healthDelta = (int) deltaHeal;
-		int targetHealth = currentHealth + healthDelta;
+		double targetHealth = currentHealth + healthDelta;
 		if (targetHealth > 20) {
 			targetHealth = 20;
 		}

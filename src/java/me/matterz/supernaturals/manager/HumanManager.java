@@ -95,7 +95,7 @@ public class HumanManager extends ClassManager {
 			if (((EntityDamageByEntityEvent) e).getDamager() instanceof LivingEntity) {
 				lDamager = (LivingEntity) ((EntityDamageByEntityEvent) e).getDamager();
 			} else if (((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
-				lDamager = ((Projectile) ((EntityDamageByEntityEvent) e).getDamager()).getShooter();
+				if (((Projectile) ((EntityDamageByEntityEvent) e).getDamager()).getShooter() instanceof LivingEntity shooter) lDamager = shooter;
 			}
 		}
 

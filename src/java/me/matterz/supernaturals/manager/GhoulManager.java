@@ -63,7 +63,7 @@ public class GhoulManager extends ClassManager {
 				SuperNPlayer snDamager = SuperNManager.get(pDamager);
 				Player victim = (Player) event.getEntity();
 				SuperNPlayer snVictim = SuperNManager.get(victim);
-				ItemStack item = pDamager.getItemInHand();
+				ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 				if (SNConfigHandler.ghoulWeaponImmunity.contains(item.getType())) {
 					damage = 0;
@@ -82,7 +82,7 @@ public class GhoulManager extends ClassManager {
 		Entity damager = event.getDamager();
 		Player pDamager = (Player) damager;
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 		if (SNConfigHandler.ghoulWeapons.contains(item.getType())) {
 			if (SNConfigHandler.debugMode) {
@@ -230,9 +230,7 @@ public class GhoulManager extends ClassManager {
 		Player player = (Player) event.getDamager();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 
-		Material itemMaterial = player.getItemInHand().getType();
-
-		player.getItemInHand();
+		Material itemMaterial = player.getInventory().getItemInMainHand().getType();
 
 		if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.ghoulBondMaterial)) {
 			if (SNConfigHandler.debugMode) {
@@ -321,12 +319,7 @@ public class GhoulManager extends ClassManager {
 			}
 			bonds.put(ghoul, snvictim);
 
-			ItemStack item = player.getItemInHand();
-			if (item.getAmount() == 1) {
-				player.setItemInHand(null);
-			} else {
-				item.setAmount(player.getItemInHand().getAmount() - 1);
-			}
+			player.getInventory().getItemInMainHand().subtract();
 			return true;
 		}
 		SuperNManager.sendMessage(ghoul, "You cannot form a bond with a human.");
@@ -395,7 +388,7 @@ public class GhoulManager extends ClassManager {
 
 	public void summon(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		if (!SupernaturalsPlugin.instance.getSpawn(player)) {
 			SuperNManager.sendMessage(snplayer, "You cannot summon here.");
 			return;
@@ -407,11 +400,7 @@ public class GhoulManager extends ClassManager {
 				SupernaturalsPlugin.log(snplayer.getName()
 						+ " summoned a Zombie!");
 			}
-			if (item.getAmount() == 1) {
-				player.setItemInHand(null);
-			} else {
-				item.setAmount(player.getItemInHand().getAmount() - 1);
-			}
+			item.subtract();
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to summon.");
 		}

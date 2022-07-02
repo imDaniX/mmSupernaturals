@@ -74,7 +74,7 @@ public class HumanManager extends ClassManager {
 		}
 
 		if (e.getCause().equals(DamageCause.FALL)) {
-			if(player.getItemInHand().getType().equals(Material.FEATHER)) {
+			if(player.getInventory().getItemInMainHand().getType() == Material.FEATHER) {
 				SuperNManager.sendMessage(snplayer, "Your spirit is lifted");
 				SuperNManager.convert(snplayer, "angel");
 			}

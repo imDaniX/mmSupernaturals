@@ -65,10 +65,10 @@ public class WereManager extends ClassManager {
 		Entity damager = event.getDamager();
 		Player pDamager = (Player) damager;
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 		if (SuperNManager.worldTimeIsNight(pDamager)) {
-			if (item != null) {
+			if (!item.getType().isAir()) {
 				if (SNConfigHandler.wereWeapons.contains(item.getType())) {
 					if (SNConfigHandler.debugMode) {
 						SupernaturalsPlugin.log(pDamager.getName()
@@ -134,7 +134,7 @@ public class WereManager extends ClassManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (player.getItemInHand() == null) {
+			if (player.getInventory().getItemInMainHand().getType().isAir()) {
 				return false;
 			}
 
@@ -178,7 +178,7 @@ public class WereManager extends ClassManager {
 
 		if (action.equals(Action.RIGHT_CLICK_AIR)) {
 			if (SuperNManager.worldTimeIsNight(player)) {
-				if (itemMaterial != null) {
+				if (!itemMaterial.isAir()) {
 					if (SNConfigHandler.foodMaterials.contains(itemMaterial)) {
 						if (itemMaterial.equals(Material.BREAD)) {
 							SuperNManager.sendMessage(snplayer, "Werewolves do not gain power from Bread.");
@@ -203,7 +203,7 @@ public class WereManager extends ClassManager {
 					}
 				}
 			}
-			if (itemMaterial != null) {
+			if (!itemMaterial.isAir()) {
 				if (SNConfigHandler.foodMaterials.contains(itemMaterial)) {
 					if (player.getFoodLevel() == 20) {
 						return false;
@@ -294,7 +294,7 @@ public class WereManager extends ClassManager {
 
 	public void summon(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		if (!SupernaturalsPlugin.instance.getSpawn(player)) {
 			SuperNManager.sendMessage(snplayer, "You cannot summon here.");
 			return;
@@ -318,11 +318,7 @@ public class WereManager extends ClassManager {
 						SupernaturalsPlugin.log(snplayer.getName()
 								+ " summoned a wolf pet!");
 					}
-					if (item.getAmount() == 1) {
-						player.setItemInHand(null);
-					} else {
-						item.setAmount(player.getItemInHand().getAmount() - 1);
-					}
+					item.subtract();
 				} else {
 					SuperNManager.sendMessage(snplayer, "You already have all the wolves you can control.");
 				}

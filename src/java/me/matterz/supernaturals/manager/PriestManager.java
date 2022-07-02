@@ -56,7 +56,7 @@ public class PriestManager extends HumanManager {
 		Entity victim = event.getEntity();
 
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 		if (SNConfigHandler.priestWeapons.contains(item.getType())) {
 			if (SNConfigHandler.debugMode) {
@@ -148,7 +148,7 @@ public class PriestManager extends HumanManager {
 				if (Math.abs(locY - SNConfigHandler.priestChurchLocationY) <= 10) {
 					if (Math.abs(locZ - SNConfigHandler.priestChurchLocationZ) <= 10) {
 						if (snplayer.isPriest()) {
-							if (player.getItemInHand().getType().equals(Material.COAL)) {
+							if (player.getInventory().getItemInMainHand().getType() == Material.COAL) {
 								SuperNManager.sendMessage(snplayer, "The Church excommunicates you!");
 								SuperNManager.cure(snplayer);
 							} else {
@@ -247,11 +247,9 @@ public class PriestManager extends HumanManager {
 	public void spellEvent(EntityDamageByEntityEvent event, Player target) {
 		Player player = (Player) event.getDamager();
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		Material itemMaterial = player.getItemInHand().getType();
+		Material itemMaterial = player.getInventory().getItemInMainHand().getType();
 
 		boolean cancelled = false;
-
-		player.getItemInHand();
 
 		if (SNConfigHandler.priestSpellMaterials.contains(itemMaterial)) {
 			if (SNConfigHandler.debugMode) {
@@ -316,12 +314,7 @@ public class PriestManager extends HumanManager {
 						+ ChatColor.WHITE + snplayer.getName() + ChatColor.RED
 						+ "!");
 				victim.teleport(SNConfigHandler.priestBanishLocation);
-				ItemStack item = player.getItemInHand();
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				player.getInventory().getItemInMainHand().subtract();
 				return;
 			}
 			SuperNManager.sendMessage(snplayer, "Can only banish supernatural players.");
@@ -347,12 +340,7 @@ public class PriestManager extends HumanManager {
 					health = 20;
 				}
 				victim.setHealth(health);
-				ItemStack item = player.getItemInHand();
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				player.getInventory().getItemInMainHand().subtract();
 				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Player cannot be healed.");
@@ -379,12 +367,7 @@ public class PriestManager extends HumanManager {
 						+ ChatColor.WHITE + snplayer.getName() + ChatColor.RED
 						+ "!");
 				SuperNManager.cure(snvictim);
-				ItemStack item = player.getItemInHand();
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				player.getInventory().getItemInMainHand().subtract();
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be exorcised.");
 			}
@@ -398,25 +381,15 @@ public class PriestManager extends HumanManager {
 		SuperNPlayer snvictim = SuperNManager.get(victim);
 		if (snplayer.getPower() > SNConfigHandler.priestPowerCure) {
 			if (snvictim.isSuper()) {
-				if (victim.getItemInHand().getType().equals(material)) {
+				if (victim.getInventory().getItemInMainHand().getType() == material) {
 					SuperNManager.alterPower(snplayer, -SNConfigHandler.priestPowerCure, "Cured "
 							+ victim.getName());
 					SuperNManager.sendMessage(snvictim, ChatColor.WHITE
 							+ snplayer.getName() + ChatColor.RED
 							+ " has restored your humanity");
 					SuperNManager.cure(snvictim);
-					ItemStack item = player.getItemInHand();
-					ItemStack item2 = victim.getItemInHand();
-					if (item.getAmount() == 1) {
-						player.setItemInHand(null);
-					} else {
-						item.setAmount(player.getItemInHand().getAmount() - 1);
-					}
-					if (item2.getAmount() == 1) {
-						victim.setItemInHand(null);
-					} else {
-						item2.setAmount(victim.getItemInHand().getAmount() - 1);
-					}
+					player.getInventory().getItemInMainHand().subtract();
+					victim.getInventory().getItemInMainHand().subtract();
 					return true;
 				} else {
 					SuperNManager.sendMessage(snplayer, ChatColor.WHITE
@@ -450,12 +423,7 @@ public class PriestManager extends HumanManager {
 						+ snvictim.getName() + "'s power!");
 				SuperNManager.alterPower(snvictim, -power, "Drained by "
 						+ snplayer.getName());
-				ItemStack item = player.getItemInHand();
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				player.getInventory().getItemInMainHand().subtract();
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be power drained.");
 			}
@@ -485,12 +453,7 @@ public class PriestManager extends HumanManager {
 						+ "!");
 				SupernaturalsPlugin.instance.getDataHandler().addAngel(priest, snvictim);
 
-				ItemStack item = player.getItemInHand();
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				player.getInventory().getItemInMainHand().subtract();
 				return true;
 			}
 			SuperNManager.sendMessage(priest, "You cannot set a Guardian Angel on a Supernatural player.");

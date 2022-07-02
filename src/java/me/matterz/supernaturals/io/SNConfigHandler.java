@@ -170,27 +170,27 @@ public class SNConfigHandler {
 	public static List<String> supernaturalTypes = new ArrayList<>();
 	public static List<String> hunterArrowTypes = new ArrayList<>();
 
-	public static final List<Material> woodMaterials = new ArrayList<>();
-	public static final List<EntityType> vampireTruce = new ArrayList<>();
-	public static final List<Material> foodMaterials = new ArrayList<>();
-	public static final List<Material> ghoulWeapons = new ArrayList<>();
-	public static final List<Material> demonWeapons = new ArrayList<>();
-	public static final List<Material> priestWeapons = new ArrayList<>();
-	public static final List<Material> vampireWeapons = new ArrayList<>();
-	public static final List<Material> hunterWeapons = new ArrayList<>();
-	public static final List<Material> wereWeapons = new ArrayList<>();
-	public static final List<Material> ghoulWeaponImmunity = new ArrayList<>();
-	public static final List<EntityType> ghoulTruce = new ArrayList<>();
+	public static final Set<Material> woodMaterials = EnumSet.noneOf(Material.class);
+	public static final Set<EntityType> vampireTruce = EnumSet.noneOf(EntityType.class);
+	public static final Set<Material> foodMaterials = EnumSet.noneOf(Material.class);
+	public static final Set<Material> ghoulWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> demonWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> priestWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> vampireWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> hunterWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> wereWeapons = EnumSet.noneOf(Material.class);
+	public static final Set<Material> ghoulWeaponImmunity = EnumSet.noneOf(Material.class);
+	public static final Set<EntityType> ghoulTruce = EnumSet.noneOf(EntityType.class);
 	public static final List<Material> priestSpellMaterials = new ArrayList<>();
-	public static final HashMap<Material, Integer> priestDonationMap = new HashMap<>();
-	public static final List<Material> burnableBlocks = new ArrayList<>();
-	public static final List<Material> hunterArmor = new ArrayList<>();
-	public static final List<Material> ghoulArmor = new ArrayList<>();
-	public static final List<Material> demonArmor = new ArrayList<>();
-	public static final List<Material> priestArmor = new ArrayList<>();
-	public static final List<Material> vampireArmor = new ArrayList<>();
-	public static final List<Material> wereArmor = new ArrayList<>();
-	public static final List<Material> enderWeapons = new ArrayList<>();
+	public static final Map<Material, Integer> priestDonationMap = new HashMap<>();
+	public static final Set<Material> burnableBlocks = EnumSet.noneOf(Material.class);
+	public static final Set<Material> hunterArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> ghoulArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> demonArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> priestArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> vampireArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> wereArmor = EnumSet.noneOf(Material.class);
+	public static final Set<Material> enderWeapons = EnumSet.noneOf(Material.class);
 
 	public static String priestChurchWorld;
 	public static int priestChurchLocationX;
@@ -232,7 +232,6 @@ public class SNConfigHandler {
 	private static List<String> vampireArmorString = new ArrayList<>();
 	private static List<String> wereArmorString = new ArrayList<>();
 
-	public static final Map<Material, Double> materialOpacity = new HashMap<>();
 	public static final HashSet<Material> transparent = new HashSet<>();
 
 	public static final Recipes vampireAltarInfectRecipe = new Recipes();
@@ -241,31 +240,6 @@ public class SNConfigHandler {
 	public static final Recipes wereWolfbaneRecipe = new Recipes();
 
 	static {
-		materialOpacity.put(Material.AIR, 0D);
-		materialOpacity.put(Material.OAK_SAPLING, 0.3D); // TODO Saplings
-		materialOpacity.put(Material.OAK_LEAVES, 0.3D); // TODO Leaves
-		materialOpacity.put(Material.GLASS, 0.5D);
-		materialOpacity.put(Material.DANDELION, 0.1D); // TODO Flowers
-		materialOpacity.put(Material.POPPY, 0.1D);
-		materialOpacity.put(Material.BROWN_MUSHROOM, 0.1D);
-		materialOpacity.put(Material.RED_MUSHROOM, 0.1D);
-		materialOpacity.put(Material.TORCH, 0.1D);
-		materialOpacity.put(Material.FIRE, 0D);
-		materialOpacity.put(Material.SPAWNER, 0.3D);
-		materialOpacity.put(Material.REDSTONE_WIRE, 0D);
-		materialOpacity.put(Material.WHEAT_SEEDS, 0.2D); // TODO Seeds
-		materialOpacity.put(Material.OAK_SIGN, 0.1D); // TODO Signs
-		materialOpacity.put(Material.OAK_WALL_SIGN, 0.2D);
-		materialOpacity.put(Material.LEVER, 0.1D);
-		materialOpacity.put(Material.STONE_PRESSURE_PLATE, 0D); // TODO Plates
-		materialOpacity.put(Material.OAK_PRESSURE_PLATE, 0D);
-		materialOpacity.put(Material.REDSTONE_TORCH, 0.1D);
-		materialOpacity.put(Material.REDSTONE_WALL_TORCH, 0.1D);
-		materialOpacity.put(Material.STONE_BUTTON, 0D);
-		materialOpacity.put(Material.SUGAR_CANE, 0.3D);
-		materialOpacity.put(Material.OAK_FENCE, 0.2D); // TODO Fences
-		materialOpacity.put(Material.REPEATER, 0D); // TODO Redstone elements
-
 		transparent.add(Material.WATER);
 		transparent.add(Material.AIR);
 	}
@@ -1097,6 +1071,7 @@ public class SNConfigHandler {
 
 		for (int i = 0; i < vampireAltarInfectMaterialsString.size(); i++) {
 			Material material = Material.getMaterial(vampireAltarInfectMaterialsString.get(i));
+			if (material == null) continue;
 			int quantity = 1;
 			try {
 				quantity = vampireAltarInfectQuantities.get(i);

@@ -39,7 +39,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 public class SNPlayerListener implements Listener {
+	private static final Set<Material> SIGNS = EnumSet.of(
+			Material.OAK_SIGN, Material.OAK_WALL_SIGN,
+			Material.DARK_OAK_SIGN, Material.DARK_OAK_WALL_SIGN,
+			Material.ACACIA_SIGN, Material.ACACIA_WALL_SIGN,
+			Material.BIRCH_SIGN, Material.BIRCH_WALL_SIGN,
+			Material.JUNGLE_SIGN, Material.JUNGLE_WALL_SIGN,
+			Material.SPRUCE_SIGN, Material.SPRUCE_WALL_SIGN,
+			Material.CRIMSON_SIGN, Material.CRIMSON_WALL_SIGN,
+			Material.WARPED_SIGN, Material.WARPED_WALL_SIGN
+	);
 
 	public final SupernaturalsPlugin plugin;
 	private final String worldPermission = "supernatural.world.enabled";
@@ -55,7 +68,7 @@ public class SNPlayerListener implements Listener {
 		Player player = event.getPlayer();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		Material itemMaterial = item.getType();
 
 		if (action.equals(Action.RIGHT_CLICK_BLOCK)
@@ -67,7 +80,7 @@ public class SNPlayerListener implements Listener {
 				player.playEffect(player.getLocation(), Effect.SMOKE, 5);
 				SuperNManager.convert(snplayer, "enderborn");
 				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
+					player.getInventory().setItemInMainHand(null);
 				} else {
 					item.setAmount(item.getAmount() - 1);
 				}
@@ -88,13 +101,12 @@ public class SNPlayerListener implements Listener {
 		Block block = event.getClickedBlock();
 		if (action.equals(Action.RIGHT_CLICK_BLOCK)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			try {
-				blockLoc = block.getLocation();
-			} catch (NullPointerException e) {
+			if (block == null) {
 				SupernaturalsPlugin.log("Door trying to close.");
 				event.setCancelled(true);
 				return;
 			}
+			blockLoc = block.getLocation();
 
 			if (block.getType().equals(Material.IRON_DOOR)) {
 				if (SNConfigHandler.debugMode) {
@@ -106,11 +118,9 @@ public class SNPlayerListener implements Listener {
 						for (int z = blockLoc.getBlockZ() - 2; z < blockLoc.getBlockZ() + 3; z++) {
 							Location newLoc = new Location(block.getWorld(), x, y, z);
 							Block newBlock = newLoc.getBlock();
-							if (newBlock.getType().equals(Material.OAK_SIGN) // TODO Signs
-									|| newBlock.getType().equals(Material.OAK_WALL_SIGN)) {
+							if (SIGNS.contains(newBlock.getType())) {
 								if (SNConfigHandler.debugMode) {
-									SupernaturalsPlugin.log(snplayer.getName()
-											+ " found a sign.");
+									SupernaturalsPlugin.log(snplayer.getName() + " found a sign.");
 								}
 								Sign sign = (Sign) newBlock.getState();
 								String[] text = sign.getLines();
@@ -190,7 +200,7 @@ public class SNPlayerListener implements Listener {
 				|| event.getReason().contains("Flying")) {
 			SuperNPlayer snplayer = SuperNManager.get(event.getPlayer());
 			if (snplayer.isVampire()
-					&& event.getPlayer().getItemInHand().getType().toString().equalsIgnoreCase(SNConfigHandler.jumpMaterial)) {
+					&& event.getPlayer().getInventory().getItemInMainHand().getType().toString().equalsIgnoreCase(SNConfigHandler.jumpMaterial)) {
 				event.setCancelled(true);
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(event.getPlayer().getName()

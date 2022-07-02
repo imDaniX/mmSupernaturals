@@ -51,9 +51,9 @@ public class EnderBornManager extends ClassManager {
 	public void spellEvent(EntityDamageByEntityEvent event, Player target) {
 		Player player = (Player) event.getDamager();
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		Material itemMaterial = item.getType();
-		ItemStack targetItem = target.getItemInHand();
+		ItemStack targetItem = target.getInventory().getItemInMainHand();
 		Material targetItemMaterial = targetItem.getType();
 		SuperNPlayer sntarget = SuperNManager.get(target);
 		if (itemMaterial.equals(Material.ENDER_PEARL)
@@ -72,7 +72,7 @@ public class EnderBornManager extends ClassManager {
 		Player pDamager = (Player) damager;
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 		Material itemMaterial = item.getType();
 
 		if (SNConfigHandler.enderWeapons.contains(itemMaterial)) {
@@ -96,7 +96,7 @@ public class EnderBornManager extends ClassManager {
 			if (victim instanceof Player pVictim) {
 				SuperNPlayer snVictim = SuperNManager.get(pVictim);
 
-				ItemStack item = pVictim.getItemInHand();
+				ItemStack item = pVictim.getInventory().getItemInMainHand();
 				if (item.getType() == Material.ENDER_PEARL
 						&& snVictim.getPower() > SNConfigHandler.enderProtectPower) {
 					damage -= damage
@@ -160,7 +160,7 @@ public class EnderBornManager extends ClassManager {
 		Action action = event.getAction();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		Material itemMaterial = item.getType();
 		if (action.equals(Action.RIGHT_CLICK_AIR)
 				|| action.equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -170,7 +170,7 @@ public class EnderBornManager extends ClassManager {
 				}
 				SuperNManager.alterPower(snplayer, SNConfigHandler.enderPearlPower, "Taken from pearl.");
 				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
+					player.getInventory().setItemInMainHand(null);
 				} else {
 					item.setAmount(item.getAmount() - 1);
 				}

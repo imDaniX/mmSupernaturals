@@ -24,15 +24,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 public class EntityUtil {
-
 	public static EntityType entityTypeFromEntity(Entity entity) {
-		if (!(entity instanceof Creature)) {
-			return null;
-		}
-
-		String name = entity.getClass().getSimpleName();
-		name = name.substring(5); // Remove "Craft"
-
-		return EntityType.fromName(name);
+		return entity instanceof Creature
+				? entity.getType()
+				: null;
 	}
 }

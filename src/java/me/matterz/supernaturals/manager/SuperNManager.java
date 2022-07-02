@@ -268,10 +268,6 @@ public class SuperNManager {
 	// Monster Truce Feature (Passive) //
 	// -------------------------------------------- //
 
-	public boolean truceIsBroken(SuperNPlayer snplayer) {
-		return snplayer.getTruce();
-	}
-
 	public void truceBreak(SuperNPlayer snplayer) {
 		if (!snplayer.isSuper()) {
 			snplayer.setTruce(true);
@@ -329,10 +325,6 @@ public class SuperNManager {
 		truceBreakTimeLeftAlter(snplayer, -milliseconds);
 	}
 
-	public int truceBreakTimeLeftGet(SuperNPlayer snplayer) {
-		return snplayer.getTruceTimer();
-	}
-
 	private void truceBreakTimeLeftAlter(SuperNPlayer snplayer, int delta) {
 		if (snplayer.getTruceTimer() + delta < 0) {
 			truceRestore(snplayer);
@@ -386,8 +378,7 @@ public class SuperNManager {
 			deltaHeal = deltaSeconds * SNConfigHandler.wereHealthGained;
 		}
 
-		int healthDelta = (int) deltaHeal;
-		double targetHealth = currentHealth + healthDelta;
+		double targetHealth = currentHealth + deltaHeal;
 		if (targetHealth > 20) {
 			targetHealth = 20;
 		}
@@ -398,7 +389,7 @@ public class SuperNManager {
 		}
 		if (SNConfigHandler.debugMode) {
 			SupernaturalsPlugin.log("Regen Event: player " + player.getName()
-					+ " gained " + healthDelta + " health.");
+					+ " gained " + deltaHeal + " health.");
 		}
 	}
 
@@ -432,7 +423,7 @@ public class SuperNManager {
 
 	public static void sendMessage(SuperNPlayer snplayer, String message) {
 		Player player = SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName());
-		if (!player.isOnline()) {
+		if (player == null) {
 			return;
 		}
 		player.sendMessage(ChatColor.RED + message);

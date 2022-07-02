@@ -39,11 +39,16 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DemonManager extends ClassManager {
+
+	private static final Set<Biome> COLD_BIOMES = EnumSet.of(
+			Biome.SNOWY_PLAINS, Biome.ICE_SPIKES, Biome.SNOWY_TAIGA, Biome.SNOWY_BEACH, Biome.GROVE,
+			Biome.SNOWY_SLOPES, Biome.JAGGED_PEAKS, Biome.FROZEN_PEAKS, Biome.WINDSWEPT_HILLS,
+			Biome.WINDSWEPT_GRAVELLY_HILLS, Biome.WINDSWEPT_FOREST, Biome.FROZEN_OCEAN, Biome.FROZEN_RIVER,
+			Biome.DEEP_FROZEN_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_COLD_OCEAN
+	);
 
 	public DemonManager() {
 		super();
@@ -93,7 +98,7 @@ public class DemonManager extends ClassManager {
 		Player pDamager = (Player) damager;
 		Entity victim = event.getEntity();
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 		if (SNConfigHandler.demonWeapons.contains(item.getType())) {
 			if (SNConfigHandler.debugMode) {
@@ -129,15 +134,8 @@ public class DemonManager extends ClassManager {
 			return;
 		}
 		if (e.getCause().equals(DamageCause.DROWNING)) {
-			int pLocX = player.getLocation().getBlockX();
-			int pLocY = player.getLocation().getBlockZ();
-			Biome pBiome = player.getWorld().getBiome(pLocX, pLocY);
 			if (snplayer.isDemon()) {
-				if (pBiome == Biome.TAIGA // TODO Cold biomes
-						|| pBiome == Biome.FROZEN_RIVER
-						|| pBiome == Biome.ICE_SPIKES
-						|| pBiome == Biome.COLD_OCEAN
-						|| pBiome == Biome.FROZEN_OCEAN) {
+				if (COLD_BIOMES.contains(player.getWorld().getBiome(player.getLocation()))) {
 					if (SNConfigHandler.debugMode) {
 						SupernaturalsPlugin.log("Demon drowned.  Checking inventory...");
 					}
@@ -176,11 +174,9 @@ public class DemonManager extends ClassManager {
 		Action action = event.getAction();
 		Player player = event.getPlayer();
 
-		Material itemMaterial = player.getItemInHand().getType();
+		Material itemMaterial = player.getInventory().getItemInMainHand().getType();
 
 		boolean cancelled;
-
-		player.getItemInHand();
 
 		if (!(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK))) {
 			return false;
@@ -337,11 +333,9 @@ public class DemonManager extends ClassManager {
 	@Override
 	public void spellEvent(EntityDamageByEntityEvent event, Player target) {
 		Player player = (Player) event.getDamager();
-		Material itemMaterial = player.getItemInHand().getType();
+		Material itemMaterial = player.getInventory().getItemInMainHand().getType();
 
 		boolean cancelled;
-
-		player.getItemInHand();
 
 		if (itemMaterial.equals(Material.NETHERRACK)) {
 			cancelled = convert(player, target);
@@ -366,12 +360,7 @@ public class DemonManager extends ClassManager {
 		fireball.setShooter(player);
 		fireball.setYield(0);
 		SuperNManager.alterPower(SuperNManager.get(player), -SNConfigHandler.demonPowerFireball, "Fireball!");
-		ItemStack item = player.getItemInHand();
-		if (item.getAmount() == 1) {
-			player.setItemInHand(null);
-		} else {
-			item.setAmount(player.getItemInHand().getAmount() - 1);
-		}
+		player.getInventory().getItemInMainHand().subtract();
 		return true;
 	}
 
@@ -382,7 +371,7 @@ public class DemonManager extends ClassManager {
 			SuperNManager.sendMessage(snplayer, "Not enough power to convert!");
 			return false;
 		}
-		if (target.getItemInHand().getType().equals(Material.NETHERRACK)) {
+		if (target.getInventory().getItemInMainHand().getType() == Material.NETHERRACK) {
 			SuperNManager.alterPower(snplayer, -SNConfigHandler.demonConvertPower, "Converted "
 					+ target.getName());
 			SuperNManager.convert(snvictim, "demon");
@@ -441,12 +430,7 @@ public class DemonManager extends ClassManager {
 			}
 		}, SNConfigHandler.demonSnareDuration / 50);
 
-		ItemStack item = player.getItemInHand();
-		if (item.getAmount() == 1) {
-			player.setItemInHand(null);
-		} else {
-			item.setAmount(player.getItemInHand().getAmount() - 1);
-		}
+		player.getInventory().getItemInMainHand().subtract();
 
 		SuperNManager.alterPower(SuperNManager.get(player), -SNConfigHandler.demonPowerSnare, "Snare!");
 		return true;

@@ -17,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class AngelManager extends ClassManager {
 
 	public AngelManager() {
@@ -28,7 +30,7 @@ public class AngelManager extends ClassManager {
 		Player player = (Player) event.getEntity();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (event.getEntity() instanceof Animals) {
-			if (player.getItemInHand().getType().equals(Material.DIAMOND_SWORD)) {
+			if (player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD)) {
 				SuperNManager.sendMessage(snplayer, "Angels cannot use diamond swords on animals!");
 				event.setCancelled(true);
 				return 0;
@@ -42,7 +44,8 @@ public class AngelManager extends ClassManager {
 		Player player = (Player) event.getDamager();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		SuperNPlayer sntarget = SuperNManager.get(target);
-		if (player.getItemInHand().getType().equals(Material.FEATHER)) {
+		Material itemType = player.getInventory().getItemInMainHand().getType();
+		if (itemType == Material.FEATHER) {
 			if (snplayer.getPower() > SNConfigHandler.angelHealPowerCost) {
 				target.setHealth(target.getHealth()
 						+ SNConfigHandler.angelHealHealthGain);
@@ -53,8 +56,7 @@ public class AngelManager extends ClassManager {
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to heal!");
 			}
-		}
-		if (player.getItemInHand().getType().equals(Material.PAPER)) {
+		} else if (itemType == Material.PAPER) {
 			if (snplayer.getPower() > SNConfigHandler.angelCurePowerCost) {
 				if (sntarget.isSuper()) {
 					SuperNManager.cure(sntarget);
@@ -75,7 +77,7 @@ public class AngelManager extends ClassManager {
 	public boolean playerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		Action action = event.getAction();
-		Material itemInHandMaterial = player.getItemInHand().getType();
+		Material itemInHandMaterial = player.getInventory().getItemInMainHand().getType();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (action.equals(Action.LEFT_CLICK_AIR)) {
 			if (itemInHandMaterial.equals(Material.DANDELION)) {
@@ -90,31 +92,55 @@ public class AngelManager extends ClassManager {
 		if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 			Block targetBlock = player.getTargetBlock(null, 20);
 			Location targetBlockLocation = targetBlock.getLocation();
-			if (itemInHandMaterial.equals(Material.BEEF) // TODO Meat
-					|| itemInHandMaterial.equals(Material.BONE)
-					|| itemInHandMaterial.equals(Material.PORKCHOP)) {
-				if (snplayer.getPower() > SNConfigHandler.angelSummonPowerCost) {
-					if (itemInHandMaterial.equals(Material.BEEF)) {
-						player.getWorld().spawnEntity(targetBlockLocation, EntityType.COW);
-						event.setCancelled(true);
-						SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned cow.");
-						return true;
-					}
-					if (itemInHandMaterial.equals(Material.BONE)) {
-						Wolf spawnedWolf = (Wolf) player.getWorld().spawnEntity(targetBlockLocation, EntityType.WOLF);
-						spawnedWolf.setTamed(true);
-						spawnedWolf.setOwner(player);
-						spawnedWolf.setHealth(20);
-						event.setCancelled(true);
-						SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned wolf.");
-						return true;
-					}
-					if (itemInHandMaterial.equals(Material.PORKCHOP)) {
-						player.getWorld().spawnEntity(targetBlockLocation, EntityType.PIG);
-						event.setCancelled(true);
-						SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned pig.");
-						return true;
-					}
+			switch (itemInHandMaterial) {
+				case BONE -> {
+					Wolf spawnedWolf = (Wolf) player.getWorld().spawnEntity(targetBlockLocation, EntityType.WOLF);
+					spawnedWolf.setTamed(true);
+					spawnedWolf.setOwner(player);
+					spawnedWolf.setHealth(20);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned wolf.");
+					return true;
+				}
+				case SALMON, COD -> {
+					Cat spawnedCat = (Cat) player.getWorld().spawnEntity(targetBlockLocation, EntityType.CAT);
+					spawnedCat.setTamed(true);
+					spawnedCat.setOwner(player);
+					spawnedCat.setHealth(20);
+					spawnedCat.setCatType(Cat.Type.values()[ThreadLocalRandom.current().nextInt(Cat.Type.values().length)]);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned cat.");
+					return true;
+				}
+				case BEEF -> {
+					player.getWorld().spawnEntity(targetBlockLocation, EntityType.COW);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned cow.");
+					return true;
+				}
+				case PORKCHOP -> {
+					player.getWorld().spawnEntity(targetBlockLocation, EntityType.PIG);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned pig.");
+					return true;
+				}
+				case MUTTON -> {
+					player.getWorld().spawnEntity(targetBlockLocation, EntityType.SHEEP);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned sheep.");
+					return true;
+				}
+				case CHICKEN -> {
+					player.getWorld().spawnEntity(targetBlockLocation, EntityType.CHICKEN);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned chicken.");
+					return true;
+				}
+				case RABBIT -> {
+					player.getWorld().spawnEntity(targetBlockLocation, EntityType.RABBIT);
+					event.setCancelled(true);
+					SuperNManager.alterPower(snplayer, -SNConfigHandler.angelSummonPowerCost, "Summoned rabbit.");
+					return true;
 				}
 			}
 		}

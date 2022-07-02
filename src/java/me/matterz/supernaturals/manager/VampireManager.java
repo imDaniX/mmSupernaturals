@@ -27,7 +27,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -72,7 +71,7 @@ public class VampireManager extends ClassManager {
 			if (damager instanceof Projectile) {
 				return damage;
 			} else if (damager instanceof Player pDamager) {
-				ItemStack item = pDamager.getItemInHand();
+				ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 				if (SNConfigHandler.woodMaterials.contains(item.getType())) {
 					damage += damage * SNConfigHandler.woodFactor;
@@ -129,7 +128,7 @@ public class VampireManager extends ClassManager {
 		Player pDamager = (Player) damager;
 		SuperNPlayer snDamager = SuperNManager.get(pDamager);
 
-		ItemStack item = pDamager.getItemInHand();
+		ItemStack item = pDamager.getInventory().getItemInMainHand();
 
 		if (SNConfigHandler.vampireWeapons.contains(item.getType())) {
 			if (SNConfigHandler.debugMode) {
@@ -159,8 +158,6 @@ public class VampireManager extends ClassManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			player.getItemInHand();
-
 			if (itemMaterial.toString().equalsIgnoreCase(SNConfigHandler.jumpMaterial)) {
 				SuperNManager.jump(player, SNConfigHandler.jumpDeltaSpeed, true);
 				event.setCancelled(true);
@@ -257,16 +254,12 @@ public class VampireManager extends ClassManager {
 
 	public void teleport(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		ItemStack item = player.getItemInHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		if (SupernaturalsPlugin.instance.getDataHandler().checkPlayer(snplayer)) {
 			if (snplayer.getPower() > SNConfigHandler.vampireTeleportCost) {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.vampireTeleportCost, "Teleport!");
 				player.teleport(SupernaturalsPlugin.instance.getDataHandler().getTeleport(snplayer));
-				if (item.getAmount() == 1) {
-					player.setItemInHand(null);
-				} else {
-					item.setAmount(player.getItemInHand().getAmount() - 1);
-				}
+				item.subtract();
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to teleport.");
 			}
@@ -409,13 +402,12 @@ public class VampireManager extends ClassManager {
 			SuperNManager.sendMessage(snplayer, "Vampires burn in sunlight! Take cover!");
 		}
 
-		player.setFireTicks(ticksTillNext
-				+ SNConfigHandler.vampireCombustFireTicks);
+		player.setFireTicks(ticksTillNext + SNConfigHandler.vampireCombustFireTicks);
 	}
 
 	public boolean standsInSunlight(Player player) {
 		// No need to set on fire if the water will put the fire out at once.
-		Material material = player.getLocation().getBlock().getType();
+		Block block = player.getLocation().getBlock();
 		World playerWorld = player.getWorld();
 
 		String permissions = "supernatural.player.preventsundamage";
@@ -425,8 +417,9 @@ public class VampireManager extends ClassManager {
 
 		return !player.getWorld().getEnvironment().equals(Environment.NETHER)
 				&& !SuperNManager.worldTimeIsNight(player)
-				&& !isUnderRoof(player)
-				&& !material.equals(Material.WATER) && !playerWorld.hasStorm()
+				&& block.getLightFromSky() >= 15
+				&& block.getType() != Material.WATER
+				&& !playerWorld.hasStorm()
 				&& !hasHelmet(player);
 	}
 
@@ -435,41 +428,5 @@ public class VampireManager extends ClassManager {
 			return player.getInventory().getHelmet().getType().toString().equalsIgnoreCase(SNConfigHandler.vampireHelmet);
 		}
 		return false;
-	}
-
-	public boolean isUnderRoof(Player player) {
-		/*
-		 * We start checking opacity 2 blocks up. As Max Y is 255 there CAN be a
-		 * roof over the player if he is standing in block 253: 255 Solid Block
-		 * 254 253 Player However if he is standing in 254 there is no chance.
-		 */
-		boolean retVal = false;
-		Block blockCurrent = player.getLocation().getBlock();
-
-		if (player.getLocation().getY() >= 254) {
-		} else {
-			// blockCurrent = blockCurrent.getFace(BlockFace.UP, 1); //What was
-			// the point?
-
-			double opacityAccumulator = 0;
-			Double opacity;
-
-			while (blockCurrent.getY() + 1 <= 255) {
-				blockCurrent = blockCurrent.getRelative(BlockFace.UP);
-
-				opacity = SNConfigHandler.materialOpacity.get(blockCurrent.getType());
-				if (opacity == null) {
-					retVal = true; // Blocks not in that map have opacity 1;
-					break;
-				}
-
-				opacityAccumulator += opacity;
-				if (opacityAccumulator >= 1.0D) {
-					retVal = true;
-					break;
-				}
-			}
-		}
-		return retVal;
 	}
 }

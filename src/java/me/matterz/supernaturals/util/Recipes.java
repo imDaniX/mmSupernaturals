@@ -33,6 +33,7 @@ public class Recipes {
 	public void removeFromPlayer(Player player) {
 		Inventory inventory = player.getInventory();
 		for (Material material : materialQuantities.keySet()) {
+			if (material == null) continue;
 			inventory.removeItem(new ItemStack(material, materialQuantities.get(material)));
 		}
 		player.updateInventory();
@@ -41,6 +42,7 @@ public class Recipes {
 	public boolean playerHasEnough(Player player) {
 		Inventory inventory = player.getInventory();
 		for (Material material : materialQuantities.keySet()) {
+			if (material == null) continue;
 			if (getMaterialCountFromInventory(material, inventory) < materialQuantities.get(material)) {
 				return false;
 			}

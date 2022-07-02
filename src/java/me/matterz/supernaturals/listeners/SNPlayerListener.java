@@ -73,7 +73,7 @@ public class SNPlayerListener implements Listener {
 
 		if (action.equals(Action.RIGHT_CLICK_BLOCK)
 				&& player.getTargetBlock(null, 20).getType() == Material.CLAY) {
-			if (itemMaterial.equals(Material.ENDER_PEARL)) {
+			if (itemMaterial == Material.ENDER_PEARL) {
 				SuperNManager.sendMessage(snplayer, "The clay changes... it moves...");
 				SuperNManager.sendMessage(snplayer, "It wraps around you, takes over you.");
 				player.playEffect(EntityEffect.HURT);
@@ -108,7 +108,7 @@ public class SNPlayerListener implements Listener {
 			}
 			blockLoc = block.getLocation();
 
-			if (block.getType().equals(Material.IRON_DOOR)) {
+			if (block.getType() == Material.IRON_DOOR) {
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(snplayer.getName()
 							+ " activated an Iron Door.");

@@ -428,11 +428,11 @@ public class SNConfigHandler {
 
 			if (woodMaterialsString.size() == 0) {
 				woodMaterialsString.add("STICK");
-				woodMaterialsString.add("WOOD_AXE");
-				woodMaterialsString.add("WOOD_HOE");
-				woodMaterialsString.add("WOOD_PICKAXE");
-				woodMaterialsString.add("WOOD_SPADE");
-				woodMaterialsString.add("WOOD_SWORD");
+				woodMaterialsString.add("WOODEN_AXE");
+				woodMaterialsString.add("WOODEN_HOE");
+				woodMaterialsString.add("WOODEN_PICKAXE");
+				woodMaterialsString.add("WOODEN_SPADE");
+				woodMaterialsString.add("WOODEN_SWORD");
 				woodMaterialsString.add("BOW");
 				config.set("Material.Wooden", woodMaterialsString);
 			}
@@ -440,12 +440,14 @@ public class SNConfigHandler {
 			if (foodMaterialsString.size() == 0) {
 				foodMaterialsString.add("APPLE");
 				foodMaterialsString.add("BREAD");
-				foodMaterialsString.add("COOKED_FISH");
-				foodMaterialsString.add("GRILLED_PORK");
+				foodMaterialsString.add("COOKED_COD");
+				foodMaterialsString.add("COOKED_SALMON");
+				foodMaterialsString.add("COD");
+				foodMaterialsString.add("SALMON");
+				foodMaterialsString.add("COOKED_PORKCHOP");
 				foodMaterialsString.add("GOLDEN_APPLE");
 				foodMaterialsString.add("MUSHROOM_SOUP");
-				foodMaterialsString.add("RAW_FISH");
-				foodMaterialsString.add("PORK");
+				foodMaterialsString.add("PORKCHOP");
 				foodMaterialsString.add("CAKE");
 				foodMaterialsString.add("COOKIE");
 				foodMaterialsString.add("COOKED_STEAK");
@@ -465,7 +467,7 @@ public class SNConfigHandler {
 
 			if (burnableBlocksString.size() == 0) {
 				burnableBlocksString.add("GRASS");
-				burnableBlocksString.add("LEAVES");
+				burnableBlocksString.add("OAK_LEAVES");
 				burnableBlocksString.add("AIR");
 				burnableBlocksString.add("SEEDS");
 				burnableBlocksString.add("WOOD");
@@ -485,7 +487,7 @@ public class SNConfigHandler {
 			if (vampireAltarInfectMaterialsString.size() == 0) {
 				vampireAltarInfectMaterialsString.add("MUSHROOM_SOUP");
 				vampireAltarInfectMaterialsString.add("BONE");
-				vampireAltarInfectMaterialsString.add("SULPHUR");
+				vampireAltarInfectMaterialsString.add("GUNPOWDER");
 				vampireAltarInfectMaterialsString.add("REDSTONE");
 				config.set("Vampire.Altar.Infect.Recipe.Materials", vampireAltarInfectMaterialsString);
 			}
@@ -541,9 +543,11 @@ public class SNConfigHandler {
 
 			if (priestDonationMaterialsString.size() == 0) {
 				priestDonationMaterialsString.add("APPLE");
-				priestDonationMaterialsString.add("RAW_FISH");
-				priestDonationMaterialsString.add("COOKED_FISH");
-				priestDonationMaterialsString.add("GRILLED_PORK");
+				priestDonationMaterialsString.add("COOKED_COD");
+				priestDonationMaterialsString.add("COOKED_SALMON");
+				priestDonationMaterialsString.add("COD");
+				priestDonationMaterialsString.add("SALMON");
+				priestDonationMaterialsString.add("COOKED_PORKCHOP");
 				priestDonationMaterialsString.add("BREAD");
 				config.set("Priest.Church.Donation.Materials", priestDonationMaterialsString);
 			}
@@ -560,11 +564,11 @@ public class SNConfigHandler {
 			if (ghoulWeaponsString.size() == 0) {
 				ghoulWeaponsString.add("BOW");
 				ghoulWeaponsString.add("STICK");
-				ghoulWeaponsString.add("WOOD_SWORD");
-				ghoulWeaponsString.add("WOOD_PICKAXE");
-				ghoulWeaponsString.add("WOOD_SPADE");
-				ghoulWeaponsString.add("WOOD_AXE");
-				ghoulWeaponsString.add("WOOD_HOE");
+				ghoulWeaponsString.add("WOODEN_SWORD");
+				ghoulWeaponsString.add("WOODEN_PICKAXE");
+				ghoulWeaponsString.add("WOODEN_SPADE");
+				ghoulWeaponsString.add("WOODEN_AXE");
+				ghoulWeaponsString.add("WOODEN_HOE");
 				ghoulWeaponsString.add("STONE_SWORD");
 				ghoulWeaponsString.add("STONE_PICKAXE");
 				ghoulWeaponsString.add("STONE_SPADE");
@@ -575,11 +579,11 @@ public class SNConfigHandler {
 				ghoulWeaponsString.add("IRON_SPADE");
 				ghoulWeaponsString.add("IRON_AXE");
 				ghoulWeaponsString.add("IRON_HOE");
-				ghoulWeaponsString.add("GOLD_SWORD");
-				ghoulWeaponsString.add("GOLD_PICKAXE");
-				ghoulWeaponsString.add("GOLD_SPADE");
-				ghoulWeaponsString.add("GOLD_AXE");
-				ghoulWeaponsString.add("GOLD_HOE");
+				ghoulWeaponsString.add("GOLDEN_SWORD");
+				ghoulWeaponsString.add("GOLDEN_PICKAXE");
+				ghoulWeaponsString.add("GOLDEN_SPADE");
+				ghoulWeaponsString.add("GOLDEN_AXE");
+				ghoulWeaponsString.add("GOLDEN_HOE");
 				ghoulWeaponsString.add("DIAMOND_SWORD");
 				ghoulWeaponsString.add("DIAMOND_PICKAXE");
 				ghoulWeaponsString.add("DIAMOND_SPADE");
@@ -594,11 +598,11 @@ public class SNConfigHandler {
 			}
 
 			if (hunterWeaponsString.size() == 0) {
-				hunterWeaponsString.add("WOOD_SWORD");
-				hunterWeaponsString.add("WOOD_PICKAXE");
-				hunterWeaponsString.add("WOOD_SPADE");
-				hunterWeaponsString.add("WOOD_AXE");
-				hunterWeaponsString.add("WOOD_HOE");
+				hunterWeaponsString.add("WOODEN_SWORD");
+				hunterWeaponsString.add("WOODEN_PICKAXE");
+				hunterWeaponsString.add("WOODEN_SPADE");
+				hunterWeaponsString.add("WOODEN_AXE");
+				hunterWeaponsString.add("WOODEN_HOE");
 				hunterWeaponsString.add("STONE_SWORD");
 				hunterWeaponsString.add("STONE_PICKAXE");
 				hunterWeaponsString.add("STONE_SPADE");
@@ -609,11 +613,11 @@ public class SNConfigHandler {
 				hunterWeaponsString.add("IRON_SPADE");
 				hunterWeaponsString.add("IRON_AXE");
 				hunterWeaponsString.add("IRON_HOE");
-				hunterWeaponsString.add("GOLD_SWORD");
-				hunterWeaponsString.add("GOLD_PICKAXE");
-				hunterWeaponsString.add("GOLD_SPADE");
-				hunterWeaponsString.add("GOLD_AXE");
-				hunterWeaponsString.add("GOLD_HOE");
+				hunterWeaponsString.add("GOLDEN_SWORD");
+				hunterWeaponsString.add("GOLDEN_PICKAXE");
+				hunterWeaponsString.add("GOLDEN_SPADE");
+				hunterWeaponsString.add("GOLDEN_AXE");
+				hunterWeaponsString.add("GOLDEN_HOE");
 				hunterWeaponsString.add("DIAMOND_SWORD");
 				hunterWeaponsString.add("DIAMOND_PICKAXE");
 				hunterWeaponsString.add("DIAMOND_SPADE");
@@ -635,11 +639,11 @@ public class SNConfigHandler {
 			if (wereWeaponsString.size() == 0) {
 				wereWeaponsString.add("BOW");
 				wereWeaponsString.add("STICK");
-				wereWeaponsString.add("WOOD_SWORD");
-				wereWeaponsString.add("WOOD_PICKAXE");
-				wereWeaponsString.add("WOOD_SPADE");
-				wereWeaponsString.add("WOOD_AXE");
-				wereWeaponsString.add("WOOD_HOE");
+				wereWeaponsString.add("WOODEN_SWORD");
+				wereWeaponsString.add("WOODEN_PICKAXE");
+				wereWeaponsString.add("WOODEN_SPADE");
+				wereWeaponsString.add("WOODEN_AXE");
+				wereWeaponsString.add("WOODEN_HOE");
 				wereWeaponsString.add("STONE_SWORD");
 				wereWeaponsString.add("STONE_PICKAXE");
 				wereWeaponsString.add("STONE_SPADE");
@@ -650,11 +654,11 @@ public class SNConfigHandler {
 				wereWeaponsString.add("IRON_SPADE");
 				wereWeaponsString.add("IRON_AXE");
 				wereWeaponsString.add("IRON_HOE");
-				wereWeaponsString.add("GOLD_SWORD");
-				wereWeaponsString.add("GOLD_PICKAXE");
-				wereWeaponsString.add("GOLD_SPADE");
-				wereWeaponsString.add("GOLD_AXE");
-				wereWeaponsString.add("GOLD_HOE");
+				wereWeaponsString.add("GOLDEN_SWORD");
+				wereWeaponsString.add("GOLDEN_PICKAXE");
+				wereWeaponsString.add("GOLDEN_SPADE");
+				wereWeaponsString.add("GOLDEN_AXE");
+				wereWeaponsString.add("GOLDEN_HOE");
 				wereWeaponsString.add("DIAMOND_SWORD");
 				wereWeaponsString.add("DIAMOND_PICKAXE");
 				wereWeaponsString.add("DIAMOND_SPADE");

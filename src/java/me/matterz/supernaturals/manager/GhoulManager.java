@@ -24,8 +24,6 @@ import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -411,27 +409,6 @@ public class GhoulManager extends ClassManager {
 	// -------------------------------------------- //
 
 	public boolean isUnderRoof(Player player) {
-		/*
-		 * We start checking opacity 2 blocks up. As Max Y is 127 there CAN be a
-		 * roof over the player if he is standing in block 125: 127 Solid Block
-		 * 126 125 Player However if he is standing in 126 there is no chance.
-		 */
-		boolean retVal = false;
-		Block blockCurrent = player.getLocation().getBlock();
-
-		if (player.getLocation().getY() >= 126) {
-		} else {
-			// blockCurrent = blockCurrent.getFace(BlockFace.UP, 1); //What was
-			// the point anyway?
-			while (blockCurrent.getY() + 1 <= 127) {
-				blockCurrent = blockCurrent.getRelative(BlockFace.UP);
-
-				if (!blockCurrent.getType().equals(Material.AIR)) {
-					retVal = true;
-					break;
-				}
-			}
-		}
-		return retVal;
+		return player.getWorld().getHighestBlockAt(player.getLocation()).getY() > player.getEyeLocation().getY();
 	}
 }

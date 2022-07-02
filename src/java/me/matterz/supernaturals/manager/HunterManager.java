@@ -146,7 +146,7 @@ public class HunterManager extends HumanManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (player.getInventory().getItemInMainHand().getType().equals(Material.BOW)) {
+			if (player.getInventory().getItemInMainHand().getType() == Material.BOW) {
 				changeArrowType(snplayer);
 				return true;
 			}

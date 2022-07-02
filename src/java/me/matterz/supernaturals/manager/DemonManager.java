@@ -260,7 +260,7 @@ public class DemonManager extends ClassManager {
 		ItemStack leggings = inv.getLeggings();
 		ItemStack boots = inv.getBoots();
 		if(helmet != null && chestplate != null && leggings != null && boots != null) {
-			if(helmet.getType().equals(Material.LEATHER_HELMET) && chestplate.getType().equals(Material.LEATHER_CHESTPLATE) && leggings.getType().equals(Material.LEATHER_LEGGINGS) && boots.getType().equals(Material.LEATHER_BOOTS)) {
+			if(helmet.getType() == Material.LEATHER_HELMET && chestplate.getType() == Material.LEATHER_CHESTPLATE && leggings.getType() == Material.LEATHER_LEGGINGS && boots.getType() == Material.LEATHER_BOOTS) {
 				demonApps.add(player);
 				return true;
 			}
@@ -300,8 +300,8 @@ public class DemonManager extends ClassManager {
 
 	public void powerAdvanceTime(Player player, int seconds) {
 		if (!player.getWorld().getEnvironment().equals(Environment.NETHER)) {
-			if (player.getLocation().getBlock().getType().equals(Material.FIRE)
-					|| player.getLocation().getBlock().getType().equals(Material.LAVA)) {
+			if (player.getLocation().getBlock().getType() == Material.FIRE
+					|| player.getLocation().getBlock().getType() == Material.LAVA) {
 				return;
 			}
 			SuperNPlayer snplayer = SuperNManager.get(player);
@@ -337,7 +337,7 @@ public class DemonManager extends ClassManager {
 
 		boolean cancelled;
 
-		if (itemMaterial.equals(Material.NETHERRACK)) {
+		if (itemMaterial == Material.NETHERRACK) {
 			cancelled = convert(player, target);
 			if (!event.isCancelled()) {
 				event.setCancelled(cancelled);

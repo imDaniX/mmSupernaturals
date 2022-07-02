@@ -44,7 +44,7 @@ public class SNBlockListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Block eventBlock = event.getBlock();
-		if (eventBlock.getType().equals(Material.COBWEB)) {
+		if (eventBlock.getType() == Material.COBWEB) {
 			for (Block block : plugin.getDemonManager().getWebs().keySet()) {
 				if (block.equals(eventBlock)) {
 					event.setCancelled(true);

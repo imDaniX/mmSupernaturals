@@ -113,7 +113,7 @@ public class PriestManager extends HumanManager {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (itemMaterial.equals(Material.BOWL)) {
+			if (itemMaterial == Material.BOWL) {
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(snplayer.getName()
 							+ " is attempting to donate remotely.");
@@ -290,7 +290,7 @@ public class PriestManager extends HumanManager {
 			if (!event.isCancelled()) {
 				event.setCancelled(cancelled);
 			}
-		} else if (itemMaterial.equals(Material.BOWL)) {
+		} else if (itemMaterial == Material.BOWL) {
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log(snplayer.getName()
 						+ " is attempting to donate remotely.");

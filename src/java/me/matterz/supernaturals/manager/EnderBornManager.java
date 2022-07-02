@@ -56,8 +56,8 @@ public class EnderBornManager extends ClassManager {
 		ItemStack targetItem = target.getInventory().getItemInMainHand();
 		Material targetItemMaterial = targetItem.getType();
 		SuperNPlayer sntarget = SuperNManager.get(target);
-		if (itemMaterial.equals(Material.ENDER_PEARL)
-				&& targetItemMaterial.equals(Material.ENDER_PEARL)) {
+		if (itemMaterial == Material.ENDER_PEARL
+				&& targetItemMaterial == Material.ENDER_PEARL) {
 			SuperNManager.sendMessage(snplayer, "You have converted "
 					+ ChatColor.WHITE + target.getName() + ChatColor.RED + "!");
 			SuperNManager.sendMessage(sntarget, "An energy takes over your body...");
@@ -164,7 +164,7 @@ public class EnderBornManager extends ClassManager {
 		Material itemMaterial = item.getType();
 		if (action.equals(Action.RIGHT_CLICK_AIR)
 				|| action.equals(Action.RIGHT_CLICK_BLOCK)) {
-			if (itemMaterial.equals(Material.ENDER_PEARL)) {
+			if (itemMaterial == Material.ENDER_PEARL) {
 				if (willTele(snplayer)) {
 					return true;
 				}
@@ -180,7 +180,7 @@ public class EnderBornManager extends ClassManager {
 		}
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (itemMaterial.equals(Material.ENDER_PEARL)) {
+			if (itemMaterial == Material.ENDER_PEARL) {
 				SuperNManager.sendMessage(snplayer, "EnderPearl teleportation set to: "
 						+ changeTele(snplayer));
 			}

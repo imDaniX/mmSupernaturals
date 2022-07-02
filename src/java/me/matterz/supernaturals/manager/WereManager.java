@@ -126,7 +126,6 @@ public class WereManager extends ClassManager {
 
 	@Override
 	public boolean playerInteract(PlayerInteractEvent event) {
-
 		Action action = event.getAction();
 		Player player = event.getPlayer();
 		SuperNPlayer snplayer = SuperNManager.get(player);
@@ -180,7 +179,7 @@ public class WereManager extends ClassManager {
 			if (SuperNManager.worldTimeIsNight(player)) {
 				if (!itemMaterial.isAir()) {
 					if (SNConfigHandler.foodMaterials.contains(itemMaterial)) {
-						if (itemMaterial.equals(Material.BREAD)) {
+						if (itemMaterial == Material.BREAD) {
 							SuperNManager.sendMessage(snplayer, "Werewolves do not gain power from Bread.");
 							return false;
 						} else {
@@ -208,7 +207,7 @@ public class WereManager extends ClassManager {
 					if (player.getFoodLevel() == 20) {
 						return false;
 					}
-					if (itemMaterial.equals(Material.BREAD)) {
+					if (itemMaterial == Material.BREAD) {
 						SuperNManager.sendMessage(snplayer, "Werewolves do not gain power from Bread.");
 						return false;
 					} else {
@@ -328,10 +327,6 @@ public class WereManager extends ClassManager {
 		} else {
 			SuperNManager.sendMessage(snplayer, "Cannot use werewolf abilities during the day!");
 		}
-	}
-
-	public static HashMap<Wolf, SuperNPlayer> getWolves() {
-		return wolvesMap;
 	}
 
 	public static void removeWolf(Wolf wolf) {

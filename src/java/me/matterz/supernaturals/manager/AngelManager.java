@@ -30,7 +30,7 @@ public class AngelManager extends ClassManager {
 		Player player = (Player) event.getEntity();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (event.getEntity() instanceof Animals) {
-			if (player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD)) {
+			if (player.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SWORD) {
 				SuperNManager.sendMessage(snplayer, "Angels cannot use diamond swords on animals!");
 				event.setCancelled(true);
 				return 0;
@@ -80,7 +80,7 @@ public class AngelManager extends ClassManager {
 		Material itemInHandMaterial = player.getInventory().getItemInMainHand().getType();
 		SuperNPlayer snplayer = SuperNManager.get(player);
 		if (action.equals(Action.LEFT_CLICK_AIR)) {
-			if (itemInHandMaterial.equals(Material.DANDELION)) {
+			if (itemInHandMaterial == Material.DANDELION) {
 				if (snplayer.getPower() > SNConfigHandler.angelJumpPowerCost) {
 					jump(player, SNConfigHandler.angelJumpDeltaSpeed);
 				} else {
@@ -185,29 +185,29 @@ public class AngelManager extends ClassManager {
 		ItemStack boots = inv.getBoots();
 
 		if (helmet != null) {
-			if (helmet.getType().equals(Material.DIAMOND_HELMET)
-					|| helmet.getType().equals(Material.GOLDEN_HELMET)) {
+			if (helmet.getType() == Material.DIAMOND_HELMET
+					|| helmet.getType() == Material.GOLDEN_HELMET) {
 				inv.setHelmet(null);
 				dropItem(player, helmet);
 			}
 		}
 		if (chest != null) {
-			if (chest.getType().equals(Material.DIAMOND_CHESTPLATE)
-					|| chest.getType().equals(Material.GOLDEN_CHESTPLATE)) {
+			if (chest.getType() == Material.DIAMOND_CHESTPLATE
+					|| chest.getType() == Material.GOLDEN_CHESTPLATE) {
 				inv.setChestplate(null);
 				dropItem(player, chest);
 			}
 		}
 		if (leggings != null) {
-			if (leggings.getType().equals(Material.DIAMOND_LEGGINGS)
-					|| leggings.getType().equals(Material.GOLDEN_LEGGINGS)) {
+			if (leggings.getType() == Material.DIAMOND_LEGGINGS
+					|| leggings.getType() == Material.GOLDEN_LEGGINGS) {
 				inv.setLeggings(null);
 				dropItem(player, leggings);
 			}
 		}
 		if (boots != null) {
-			if (boots.getType().equals(Material.DIAMOND_BOOTS)
-					|| boots.getType().equals(Material.GOLDEN_BOOTS)) {
+			if (boots.getType() == Material.DIAMOND_BOOTS
+					|| boots.getType() == Material.GOLDEN_BOOTS) {
 				inv.setBoots(null);
 				dropItem(player, boots);
 			}

@@ -47,6 +47,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -126,23 +127,17 @@ public class SupernaturalsPlugin extends JavaPlugin {
 
 	public ClassManager getClassManager(Player player) {
 		SuperNPlayer snplayer = SuperNManager.get(player);
-		if (snplayer.getType().equalsIgnoreCase("demon")) {
-			return demonManager;
-		} else if (snplayer.getType().equalsIgnoreCase("ghoul")) {
-			return ghoulManager;
-		} else if (snplayer.getType().equalsIgnoreCase("witchhunter")) {
-			return hunterManager;
-		} else if (snplayer.getType().equalsIgnoreCase("priest")) {
-			return priestManager;
-		} else if (snplayer.getType().equalsIgnoreCase("vampire")) {
-			return vampManager;
-		} else if (snplayer.getType().equalsIgnoreCase("werewolf")) {
-			return wereManager;
-		} else if (snplayer.getType().equalsIgnoreCase("enderborn")) {
-			return enderManager;
-		} else {
-			return humanManager;
-		}
+		return switch (snplayer.getType().toLowerCase(Locale.ROOT)) {
+			case "demon" -> demonManager;
+			case "ghoul" -> ghoulManager;
+			case "angel" -> angelManager;
+			case "witchhunter" -> hunterManager;
+			case "priest" -> priestManager;
+			case "vampire" -> vampManager;
+			case "werewolf" -> wereManager;
+			case "enderborn" -> enderManager;
+			default -> humanManager;
+		};
 	}
 
 	// -------------------------------------------- //

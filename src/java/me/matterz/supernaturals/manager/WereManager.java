@@ -317,7 +317,7 @@ public class WereManager extends ClassManager {
 						SupernaturalsPlugin.log(snplayer.getName()
 								+ " summoned a wolf pet!");
 					}
-					item.subtract();
+					player.getInventory().setItemInMainHand(item.subtract());
 				} else {
 					SuperNManager.sendMessage(snplayer, "You already have all the wolves you can control.");
 				}

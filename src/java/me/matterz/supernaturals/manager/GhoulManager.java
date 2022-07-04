@@ -317,7 +317,7 @@ public class GhoulManager extends ClassManager {
 			}
 			bonds.put(ghoul, snvictim);
 
-			player.getInventory().getItemInMainHand().subtract();
+			player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 			return true;
 		}
 		SuperNManager.sendMessage(ghoul, "You cannot form a bond with a human.");
@@ -398,7 +398,7 @@ public class GhoulManager extends ClassManager {
 				SupernaturalsPlugin.log(snplayer.getName()
 						+ " summoned a Zombie!");
 			}
-			item.subtract();
+			player.getInventory().setItemInMainHand(item.subtract());
 		} else {
 			SuperNManager.sendMessage(snplayer, "Not enough power to summon.");
 		}

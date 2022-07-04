@@ -259,7 +259,7 @@ public class VampireManager extends ClassManager {
 			if (snplayer.getPower() > SNConfigHandler.vampireTeleportCost) {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.vampireTeleportCost, "Teleport!");
 				player.teleport(SupernaturalsPlugin.instance.getDataHandler().getTeleport(snplayer));
-				item.subtract();
+				player.getInventory().setItemInMainHand(item.subtract());
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to teleport.");
 			}

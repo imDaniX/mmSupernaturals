@@ -360,7 +360,7 @@ public class DemonManager extends ClassManager {
 		fireball.setShooter(player);
 		fireball.setYield(0);
 		SuperNManager.alterPower(SuperNManager.get(player), -SNConfigHandler.demonPowerFireball, "Fireball!");
-		player.getInventory().getItemInMainHand().subtract();
+		player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 		return true;
 	}
 
@@ -430,7 +430,7 @@ public class DemonManager extends ClassManager {
 			}
 		}, SNConfigHandler.demonSnareDuration / 50);
 
-		player.getInventory().getItemInMainHand().subtract();
+		player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 
 		SuperNManager.alterPower(SuperNManager.get(player), -SNConfigHandler.demonPowerSnare, "Snare!");
 		return true;

@@ -314,7 +314,7 @@ public class PriestManager extends HumanManager {
 						+ ChatColor.WHITE + snplayer.getName() + ChatColor.RED
 						+ "!");
 				victim.teleport(SNConfigHandler.priestBanishLocation);
-				player.getInventory().getItemInMainHand().subtract();
+				player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 				return;
 			}
 			SuperNManager.sendMessage(snplayer, "Can only banish supernatural players.");
@@ -340,7 +340,7 @@ public class PriestManager extends HumanManager {
 					health = 20;
 				}
 				victim.setHealth(health);
-				player.getInventory().getItemInMainHand().subtract();
+				player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Player cannot be healed.");
@@ -367,7 +367,7 @@ public class PriestManager extends HumanManager {
 						+ ChatColor.WHITE + snplayer.getName() + ChatColor.RED
 						+ "!");
 				SuperNManager.cure(snvictim);
-				player.getInventory().getItemInMainHand().subtract();
+				player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be exorcised.");
 			}
@@ -388,8 +388,8 @@ public class PriestManager extends HumanManager {
 							+ snplayer.getName() + ChatColor.RED
 							+ " has restored your humanity");
 					SuperNManager.cure(snvictim);
-					player.getInventory().getItemInMainHand().subtract();
-					victim.getInventory().getItemInMainHand().subtract();
+					player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
+					victim.getInventory().setItemInMainHand(victim.getInventory().getItemInMainHand().subtract());
 					return true;
 				} else {
 					SuperNManager.sendMessage(snplayer, ChatColor.WHITE
@@ -423,7 +423,7 @@ public class PriestManager extends HumanManager {
 						+ snvictim.getName() + "'s power!");
 				SuperNManager.alterPower(snvictim, -power, "Drained by "
 						+ snplayer.getName());
-				player.getInventory().getItemInMainHand().subtract();
+				player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 			} else {
 				SuperNManager.sendMessage(snplayer, "Only supernatural players can be power drained.");
 			}
@@ -453,7 +453,7 @@ public class PriestManager extends HumanManager {
 						+ "!");
 				SupernaturalsPlugin.instance.getDataHandler().addAngel(priest, snvictim);
 
-				player.getInventory().getItemInMainHand().subtract();
+				player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().subtract());
 				return true;
 			}
 			SuperNManager.sendMessage(priest, "You cannot set a Guardian Angel on a Supernatural player.");

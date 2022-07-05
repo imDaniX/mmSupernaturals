@@ -19,11 +19,17 @@
 
 package me.matterz.supernaturals.util;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 
 public class EntityUtil {
+	public static void setHealth(LivingEntity entity, double health) {
+		entity.setHealth(Math.min(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), health));
+	}
+
 	public static EntityType entityTypeFromEntity(Entity entity) {
 		return entity instanceof Creature
 				? entity.getType()

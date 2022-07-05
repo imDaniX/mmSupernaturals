@@ -356,8 +356,7 @@ public class SuperNManager {
 		if (snplayer.isVampire()) {
 			if (snplayer.getPower() <= SNConfigHandler.vampireHealthCost) {
 				if (SNConfigHandler.debugMode) {
-					SupernaturalsPlugin.log("Regen Event: Vampire player "
-							+ player.getName() + " not enough power!");
+					SupernaturalsPlugin.log("Regen Event: Vampire player " + player.getName() + " not enough power!");
 				}
 				return;
 			}

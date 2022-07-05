@@ -3,6 +3,7 @@ package me.matterz.supernaturals.manager;
 import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
+import me.matterz.supernaturals.util.EntityUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,8 +48,7 @@ public class AngelManager extends ClassManager {
 		Material itemType = player.getInventory().getItemInMainHand().getType();
 		if (itemType == Material.FEATHER) {
 			if (snplayer.getPower() > SNConfigHandler.angelHealPowerCost) {
-				target.setHealth(target.getHealth()
-						+ SNConfigHandler.angelHealHealthGain);
+				EntityUtil.setHealth(target, target.getHealth() + SNConfigHandler.angelHealHealthGain);
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.angelHealPowerCost, "Healing "
 						+ target.getName());
 				target.sendMessage(ChatColor.RED + "Healed by "

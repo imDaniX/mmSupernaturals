@@ -139,11 +139,11 @@ public class SNEntityListener implements Listener {
 					double ghoulDamage = damageAfterArmor;
 					ghoulDamage -= ghoulDamage
 							* ghoul.scale(1 - SNConfigHandler.ghoulDamageReceivedFactor);
-					int health = (int) (gPlayer.getHealth() - ghoulDamage);
+					double health = (gPlayer.getHealth() - ghoulDamage);
 					if (health < 0) {
 						health = 0;
 					}
-					gPlayer.setHealth(health);
+					EntityUtil.setHealth(gPlayer, health);
 					SuperNManager.alterPower(ghoul, -SNConfigHandler.ghoulPowerBond, "Unholy Bond!");
 				}
 			}

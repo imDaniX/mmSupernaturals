@@ -30,5 +30,4 @@ jobs:
       - uses: actions/upload-artifact@main
         with:
           name: mmSupernaturals
-          path: |
-            mmSupernaturals/target/supernaturals-*.jar
+          path: /home/runner/work/mmSupernaturals/mmSupernaturals/target/supernaturals-*.jar

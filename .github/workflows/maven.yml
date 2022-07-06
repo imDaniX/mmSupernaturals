@@ -31,4 +31,4 @@ jobs:
         with:
           name: Dangerous Caves
           path: |
-            mmSupernaturals/target/supernaturals--*.jar
+            mmSupernaturals/target/supernaturals-*.jar

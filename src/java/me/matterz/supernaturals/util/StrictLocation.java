@@ -1,11 +1,12 @@
 package me.matterz.supernaturals.util;
 
-import me.matterz.supernaturals.SupernaturalsPlugin;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.io.Serializable;
 
-public class Location implements Serializable {
+public class StrictLocation implements Serializable {
 
 	/**
 	 * Auto-Generated serialVersionUID
@@ -17,7 +18,7 @@ public class Location implements Serializable {
 	private final double z;
 	private final String world;
 
-	public Location(org.bukkit.Location location) {
+	public StrictLocation(Location location) {
 		x = location.getX();
 		y = location.getY();
 		z = location.getZ();
@@ -37,6 +38,6 @@ public class Location implements Serializable {
 	}
 
 	public World getWorld() {
-		return SupernaturalsPlugin.instance.getServer().getWorld(world);
+		return Bukkit.getWorld(world);
 	}
 }

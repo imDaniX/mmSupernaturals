@@ -23,6 +23,7 @@ import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
 import me.matterz.supernaturals.util.ArrowUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -190,7 +191,7 @@ public class HunterManager extends HumanManager {
 
 			if (!bountyList.contains(sntarget) && sntarget.isSuper()) {
 				bountyList.add(sntarget);
-				SupernaturalsPlugin.instance.getServer().broadcastMessage(ChatColor.WHITE
+				Bukkit.broadcastMessage(ChatColor.WHITE
 						+ sntarget.getName()
 						+ ChatColor.RED
 						+ " has been added to the WitchHunter target list!");
@@ -243,7 +244,7 @@ public class HunterManager extends HumanManager {
 			if (!bountyList.contains(sntarget) && sntarget.isSuper()) {
 				bountyList.add(sntarget);
 				numberFound++;
-				SupernaturalsPlugin.instance.getServer().broadcastMessage(ChatColor.WHITE
+				Bukkit.broadcastMessage(ChatColor.WHITE
 						+ sntarget.getName()
 						+ ChatColor.RED
 						+ " has been added to the WitchHunter target list!");
@@ -303,7 +304,7 @@ public class HunterManager extends HumanManager {
 			addDoorLocation(loc);
 			addDoorLocation(door.getHalf() == Bisected.Half.TOP ? loc.clone().subtract(0, 1, 0) : loc.clone().add(0, 1, 0));
 
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> closeDoor(loc), 20);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> closeDoor(loc), 20);
 			if (SNConfigHandler.debugMode) {
 				SupernaturalsPlugin.log("WitchHunter door is set open.");
 			}
@@ -332,7 +333,7 @@ public class HunterManager extends HumanManager {
 	// -------------------------------------------- //
 
 	public void invite(final SuperNPlayer snplayer) {
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
 			SuperNManager.sendMessage(snplayer, "You have been invited to join the WitchHunter society!");
 			SuperNManager.sendMessage(snplayer, "If you wish to accept this invitation visit a WitchHunters' Hall");
 			if (!playerInvites.contains(snplayer)) {
@@ -391,7 +392,7 @@ public class HunterManager extends HumanManager {
 	}
 
 	public void removeArrow(final Arrow arrow) {
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> arrowMap.remove(arrow), 20);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> arrowMap.remove(arrow), 20);
 	}
 
 	// -------------------------------------------- //
@@ -452,7 +453,7 @@ public class HunterManager extends HumanManager {
 				SuperNManager.alterPower(snplayer, -SNConfigHandler.hunterPowerArrowTriple, "Triple Arrow!");
 				final Arrow arrow = player.launchProjectile(Arrow.class);
 				arrowMap.put(arrow, arrowType);
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
 				return true;
 			} else {
 				SuperNManager.sendMessage(snplayer, "Not enough power to shoot Triple Arrows!");
@@ -469,7 +470,7 @@ public class HunterManager extends HumanManager {
 				if (SNConfigHandler.debugMode) {
 					SupernaturalsPlugin.log(snplayer.getName() + " is drained.");
 				}
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
 					drainedPlayers.remove(player);
 					if (player.isOnline()) {
 						SuperNManager.sendMessage(snplayer, "You can shoot again!");
@@ -509,7 +510,7 @@ public class HunterManager extends HumanManager {
 		String arrowType = arrowMap.get(arrow);
 		if (arrowType.equals("triple")) {
 			arrowMap.put(arrow, "double");
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> splitArrow(player, arrow), 4);
 		} else {
 			arrowMap.remove(arrow);
 		}
@@ -525,14 +526,14 @@ public class HunterManager extends HumanManager {
 		}
 		ArrowUtil gh = new ArrowUtil(player, targetLocation);
 		grapplingPlayers.add(player);
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, gh);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, gh);
 	}
 
 	public void stopGrappling(final Player player) {
 		if (isGrappling(player)) {
 			Vector v = new Vector(0, 0, 0);
 			player.setVelocity(v);
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> grapplingPlayers.remove(player), 20 * 2);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> grapplingPlayers.remove(player), 20 * 2);
 		}
 	}
 }

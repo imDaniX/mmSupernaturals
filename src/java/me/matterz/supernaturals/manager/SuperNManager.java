@@ -25,6 +25,7 @@ import me.matterz.supernaturals.io.SNConfigHandler;
 import me.matterz.supernaturals.io.SNWhitelistHandler;
 import me.matterz.supernaturals.util.EntityUtil;
 import me.matterz.supernaturals.util.SNTaskTimer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -90,7 +91,7 @@ public class SuperNManager {
 
 	public static Set<SuperNPlayer> findAllOnline() {
 		Set<SuperNPlayer> snplayers = new HashSet<>();
-		for (Player player : SupernaturalsPlugin.instance.getServer().getOnlinePlayers()) {
+		for (Player player : Bukkit.getOnlinePlayers()) {
 			snplayers.add(get(player));
 		}
 		return snplayers;
@@ -202,7 +203,7 @@ public class SuperNManager {
 	// -------------------------------------------- //
 
 	public static void alterPower(SuperNPlayer snplayer, double delta) {
-		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
+		if (SupernaturalsPlugin.hasPermissions(Bukkit.getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
 			if (delta < 0) {
 				return;
 			}
@@ -211,7 +212,7 @@ public class SuperNManager {
 	}
 
 	public static void alterPower(SuperNPlayer snplayer, double delta, String reason) {
-		if (SupernaturalsPlugin.hasPermissions(SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
+		if (SupernaturalsPlugin.hasPermissions(Bukkit.getPlayer(snplayer.getName()), INFINITE_POWER_PERMISSION)) {
 			if (delta < 0) {
 				return;
 			}
@@ -286,7 +287,7 @@ public class SuperNManager {
 		snplayer.setTruceTimer(0);
 
 		// Untarget the player.
-		Player player = SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName());
+		Player player = Bukkit.getPlayer(snplayer.getName());
 		for (LivingEntity entity : player.getWorld().getLivingEntities()) {
 			if (!(entity instanceof Creature)) {
 				continue;
@@ -387,8 +388,7 @@ public class SuperNManager {
 			SupernaturalsPlugin.log("Attempted to regen dead player.");
 		}
 		if (SNConfigHandler.debugMode) {
-			SupernaturalsPlugin.log("Regen Event: player " + player.getName()
-					+ " gained " + deltaHeal + " health.");
+			SupernaturalsPlugin.log("Regen Event: player " + player.getName() + " gained " + deltaHeal + " health.");
 		}
 	}
 
@@ -421,7 +421,7 @@ public class SuperNManager {
 	// -------------------------------------------- //
 
 	public static void sendMessage(SuperNPlayer snplayer, String message) {
-		Player player = SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName());
+		Player player = Bukkit.getPlayer(snplayer.getName());
 		if (player == null) {
 			return;
 		}
@@ -435,7 +435,7 @@ public class SuperNManager {
 	}
 
 	public static void updateName(SuperNPlayer snplayer) {
-		Player player = SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName());
+		Player player = Bukkit.getPlayer(snplayer.getName());
 		String name = player.getName();
 		String displayname = player.getDisplayName().trim();
 		String updatedname;
@@ -484,14 +484,14 @@ public class SuperNManager {
 	}
 
 	public static void startTimer() {
-		timer = SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncRepeatingTask(SupernaturalsPlugin.instance, new SNTaskTimer(SupernaturalsPlugin.instance), 0, 20);
+		timer = Bukkit.getScheduler().scheduleSyncRepeatingTask(SupernaturalsPlugin.instance, new SNTaskTimer(SupernaturalsPlugin.instance), 0, 20);
 		if (timer == -1) {
 			SupernaturalsPlugin.log(Level.WARNING, "Timer failed!");
 		}
 	}
 
 	public static void cancelTimer() {
-		SupernaturalsPlugin.instance.getServer().getScheduler().cancelTask(timer);
+		Bukkit.getScheduler().cancelTask(timer);
 	}
 
 	public void advanceTime(SuperNPlayer snplayer) {

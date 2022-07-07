@@ -21,7 +21,8 @@ package me.matterz.supernaturals.io;
 
 import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
-import me.matterz.supernaturals.util.Location;
+import me.matterz.supernaturals.util.StrictLocation;
+import org.bukkit.Bukkit;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class SNDataHandler implements Serializable {
 	 */
 	private static final long serialVersionUID = 2266551481298554973L;
 
-	private final HashMap<SuperNPlayer, Location> teleportLocations = new HashMap<>();
+	private final HashMap<SuperNPlayer, StrictLocation> teleportLocations = new HashMap<>();
 	private final HashMap<SuperNPlayer, SuperNPlayer> angels = new HashMap<>();
 	private final HashMap<SuperNPlayer, ArrayList<String>> hunterApps = new HashMap<>();
 
@@ -76,7 +77,7 @@ public class SNDataHandler implements Serializable {
 	// -------------------------------------------- //
 
 	public void addTeleport(SuperNPlayer player) {
-		teleportLocations.put(player, new Location(SupernaturalsPlugin.instance.getServer().getPlayer(player.getName()).getLocation()));
+		teleportLocations.put(player, new StrictLocation(Bukkit.getPlayer(player.getName()).getLocation()));
 	}
 
 	public boolean checkPlayer(SuperNPlayer player) {
@@ -84,7 +85,7 @@ public class SNDataHandler implements Serializable {
 	}
 
 	public org.bukkit.Location getTeleport(SuperNPlayer player) {
-		Location location = teleportLocations.get(player);
+		StrictLocation location = teleportLocations.get(player);
 		return new org.bukkit.Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
 	}
 

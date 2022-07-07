@@ -20,6 +20,7 @@
 package me.matterz.supernaturals.util;
 
 import me.matterz.supernaturals.SupernaturalsPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -74,7 +75,7 @@ public class ArrowUtil implements Runnable {
 			travelVector = travelVector.multiply(1.0);
 			player.setVelocity(travelVector);
 			ArrowUtil gh = new ArrowUtil(player, targetLocation, startTime, grappleDistance);
-			SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, gh);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, gh);
 		}
 	}
 }

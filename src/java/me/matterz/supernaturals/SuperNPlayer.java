@@ -19,6 +19,8 @@
 
 package me.matterz.supernaturals;
 
+import org.bukkit.Bukkit;
+
 import java.io.Serializable;
 
 public class SuperNPlayer implements Serializable {
@@ -157,11 +159,11 @@ public class SuperNPlayer implements Serializable {
 	}
 
 	public boolean isOnline() {
-		return SupernaturalsPlugin.instance.getServer().getPlayer(playername) != null;
+		return Bukkit.getPlayer(playername) != null;
 	}
 
 	public boolean isDead() {
-		return SupernaturalsPlugin.instance.getServer().getPlayer(playername).isDead();
+		return Bukkit.getPlayer(playername).isDead();
 	}
 
 	@Override

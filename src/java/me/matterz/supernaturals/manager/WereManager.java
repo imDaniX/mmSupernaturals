@@ -22,6 +22,7 @@ package me.matterz.supernaturals.manager;
 import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -110,7 +111,7 @@ public class WereManager extends ClassManager {
 			}
 			if (SNConfigHandler.wereKillSpreadCurse
 					&& !victim.isSuper()
-					&& SuperNManager.worldTimeIsNight(SupernaturalsPlugin.instance.getServer().getPlayer(victim.getName()))) {
+					&& SuperNManager.worldTimeIsNight(Bukkit.getPlayer(victim.getName()))) {
 				if (random < SNConfigHandler.spreadChance) {
 					SuperNManager.sendMessage(victim, "Your basic nature changes... You feel more in touch with your animal side.");
 					SuperNManager.convert(victim, "werewolf");

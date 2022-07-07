@@ -22,6 +22,7 @@ package me.matterz.supernaturals.manager;
 import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -83,7 +84,7 @@ public class DemonManager extends ClassManager {
 				demons.add(dPlayer);
 				heal(victim);
 				SuperNManager.alterPower(snVictim, SNConfigHandler.demonPowerGain, "Lava!");
-				SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> demons.remove(dPlayer), 41);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> demons.remove(dPlayer), 41);
 			}
 			victim.setFireTicks(0);
 			event.setCancelled(true);
@@ -414,7 +415,7 @@ public class DemonManager extends ClassManager {
 			}
 		}
 
-		SupernaturalsPlugin.instance.getServer().getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SupernaturalsPlugin.instance, () -> {
 			List<Block> blocks = new ArrayList<>();
 			for (Block block1 : webMap.keySet()) {
 				if (webMap.get(block1).equals(loc)) {

@@ -23,6 +23,7 @@ import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
 import me.matterz.supernaturals.manager.SuperNManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -83,7 +84,7 @@ public class SNCommandPower extends SNCommand {
 					SuperNManager.alterPower(snplayer, powerGain, "Admin boost!");
 				} else {
 					String playername = parameters.get(0);
-					Player player = SupernaturalsPlugin.instance.getServer().getPlayer(playername);
+					Player player = Bukkit.getPlayer(playername);
 					if (player == null) {
 						this.sendMessage("Jugador no encontrado!");
 						return;
@@ -139,7 +140,7 @@ public class SNCommandPower extends SNCommand {
 					SuperNManager.alterPower(snplayer, powerGain, "Admin boost!");
 				} else {
 					String playername = parameters.get(0);
-					Player player = SupernaturalsPlugin.instance.getServer().getPlayer(playername);
+					Player player = Bukkit.getPlayer(playername);
 					if (player == null) {
 						this.sendMessage("Player not found!");
 						return;

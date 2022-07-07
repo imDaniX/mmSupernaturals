@@ -23,6 +23,7 @@ import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
 import me.matterz.supernaturals.manager.SuperNManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -52,7 +53,7 @@ public class SNCommandConvert extends SNCommand {
 			} else {
 				String playername = parameters.get(0);
 				String superType = parameters.get(1).toLowerCase();
-				Player player = SupernaturalsPlugin.instance.getServer().getPlayer(playername);
+				Player player = Bukkit.getPlayer(playername);
 
 				if (player == null) {
 					if (!SNConfigHandler.spanish) {
@@ -188,7 +189,7 @@ public class SNCommandConvert extends SNCommand {
 			}
 			String playername = parameters.get(0);
 			String superType = parameters.get(1).toLowerCase();
-			Player player = SupernaturalsPlugin.instance.getServer().getPlayer(playername);
+			Player player = Bukkit.getPlayer(playername);
 
 			if (player == null) {
 				if (!SNConfigHandler.spanish) {

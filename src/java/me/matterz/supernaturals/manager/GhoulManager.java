@@ -22,6 +22,7 @@ package me.matterz.supernaturals.manager;
 import me.matterz.supernaturals.SuperNPlayer;
 import me.matterz.supernaturals.SupernaturalsPlugin;
 import me.matterz.supernaturals.io.SNConfigHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Boat;
@@ -345,7 +346,7 @@ public class GhoulManager extends ClassManager {
 			return false;
 		}
 
-		Player gPlayer = SupernaturalsPlugin.instance.getServer().getPlayer(snplayer.getName());
+		Player gPlayer = Bukkit.getPlayer(snplayer.getName());
 
 		if (!gPlayer.getWorld().equals(player.getWorld())) {
 			return false;
